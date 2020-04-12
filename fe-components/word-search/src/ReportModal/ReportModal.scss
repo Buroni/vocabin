@@ -1,0 +1,24 @@
+.ReportModal {
+    ul {
+        list-style-type: disc !important;
+        list-style-position: inside !important;
+        margin-left: 1.5em !important;
+    }
+
+    p {
+        padding-bottom: 0.8em;
+    }
+
+    p.sentence {
+        opacity: 0.7;
+        display: inline-block;
+        width: 100%;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .modal-card-head {
+        padding-bottom: 0 !important;
+    }
+}

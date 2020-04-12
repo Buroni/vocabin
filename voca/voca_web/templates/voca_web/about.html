@@ -1,0 +1,29 @@
+{% extends "voca_web/base.html" %}
+
+{% block main_content %}
+<section class="section">
+    <div class="box">
+        <h3 class="title">About</h3>
+        <p class="about-p">
+            Voca is a language-learning tool which shows example sentences for each inflection of a given word. Sentences can be filtered by difficulty level and category.
+        </p>
+        <h3 class="title is-4"><i class="fas fa-question-circle head-icon"></i>Why</h3>
+        <p class="about-p">
+            Knowing how to use a word is arguably just as important as knowing the word itself.
+            However, learning new vocabulary in isolation normally doesn't give you the big picture about how a word should be used.
+            <br /><br />Once you come across a novel word, Voca aims to give you this context by providing example sentences containing
+            the word in all its forms. Studying these sentences allows learners to improve their reading comprehension,
+            while drilling key vocabulary and ultimately becoming more confident in how to use that vocabulary in different contexts.
+        </p>
+        <h3 class="title is-4"><i class="fas fa-wrench head-icon"></i>How</h3>
+        <p class="about-p">
+            News and web data are both taken from the <a href="https://wortschatz.uni-leipzig.de/en" target="_blank">Leipzig Corpora</a>.
+            Kids data is scraped from <a href="https://www.vikidia.org/">Vikidia</a> -- an online encyclopaedia for 8 to 13-year-olds. While data
+            has been cleaned, "junk" and grammatically incorrect sentences might occasionally appear. Please use the report (<i class="fas fa-flag" style="opacity: 0.8;"></i>)
+            function to flag these sentences.
+            <br /><br />
+            "Simple sentences" are discovered using a simple combination of word and sentence length thresholds.
+        </p>
+    </div>
+</section>
+{% endblock main_content %}

@@ -1,0 +1,58 @@
+.Conjugation {
+
+    padding: 1em;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+
+    .easy {
+        background-color: rgb(230, 255, 230);
+    }
+    .moderate {
+        background-color: rgb(255, 255, 230);
+    }
+    .difficult {
+        background-color: rgb(255, 230, 230);
+    }
+    .sentence-item {
+        padding: 1em 0.5em;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        margin-top: 0.4em;
+    }
+    .tags {
+        margin-bottom: 0.3em !important;
+    }
+    .tag-text {
+       padding-left: 0.1em;
+       text-transform: capitalize;
+    }
+    .caret {
+        padding-left: 0.5em;
+        padding-top: 0.1em;
+        color: #3273dc;
+    }
+    .word-caret {
+        display: flex;
+        align-items: center;
+    }
+    .fake-link {
+        cursor: pointer;
+    }
+    .no-results {
+        opacity: 0.6;
+    }
+    .report-button {
+        cursor: pointer;
+        opacity: 0.8;
+        width: 2em;
+        height: 2em;
+    }
+    .report-button:hover {
+        opacity: 1;
+    }
+    .tag-columns {
+        margin-bottom: 0 !important;
+
+        .column {
+            padding-bottom: 0 !important;
+        }
+    }
+}
