@@ -1,0 +1,18 @@
+{% extends "voca_web/base.html" %}
+
+{% block main_content %}
+<section class="section">
+    <div class="box">
+        <h3 class="title">Languages</h3>
+        <p class="about-p">
+            Currently supported languages are English, Dutch, French, German, Italian and Spanish.
+        </p>
+        <h3 class="title is-4"><i class="fas fa-language head-icon"></i>Adding Languages</h3>
+        <p class="about-p">
+            Supported languages are limited by available sentence data, and the language support provided by the <a href="https://www.clips.uantwerpen.be/pages/pattern-dev#language">Pattern</a>
+            library, which is used for word inflection. Future support might be possible by using additional language processing libraries, or providing the option
+            to lookup sentences in new languages without the inflection feature.
+        </p>
+    </div>
+</section>
+{% endblock main_content %}

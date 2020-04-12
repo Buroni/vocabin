@@ -7,6 +7,7 @@ from functools import wraps
 
 env = environ.Env(DEBUG=(bool, False))
 environ.Env.read_env()
+version = env("VERSION")
 
 
 def allow_lazy_auth(func):
@@ -23,9 +24,12 @@ def allow_lazy_auth(func):
 
 @allow_lazy_auth
 def index(request):
-    version = env("VERSION")
     return render(request, "voca_web/index.html", {"version": version})
 
 
 def about(request):
-    return render(request, "voca_web/about.html", {})
+    return render(request, "voca_web/about.html", {"version": version})
+
+
+def languages(request):
+    return render(request, "voca_web/languages.html", {"version": version})
