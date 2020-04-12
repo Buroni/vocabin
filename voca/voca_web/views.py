@@ -33,3 +33,7 @@ def about(request):
 
 def languages(request):
     return render(request, "voca_web/languages.html", {"version": version})
+
+
+def contact(request):
+    return render(request, "voca_web/contact.html", {"version": version})

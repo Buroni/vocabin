@@ -33,7 +33,7 @@ DEBUG = env('DEBUG')
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
 SECURE_REFERRER_POLICY = "same-origin"
-SECURE_SSL_REDIRECT = True
+SECURE_SSL_REDIRECT = not env("DEBUG")
 
 ALLOWED_HOSTS = ["localhost", "104.247.76.243", "vps54246.inmotionhosting.com", "vocabin.net"]
 
