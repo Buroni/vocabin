@@ -3,7 +3,7 @@ const env = {
         baseURL: "http://localhost:8000/api/"
     },
     "production": {
-        baseURL: "http://104.247.76.243/api/"
+        baseURL: "https://vocabin.net/api/"
     }
 }
 
