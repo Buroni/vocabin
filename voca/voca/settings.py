@@ -30,6 +30,10 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_REFERRER_POLICY = "same-origin"
+
 ALLOWED_HOSTS = ["localhost", "104.247.76.243", "vps54246.inmotionhosting.com"]
 
 REST_FRAMEWORK = {

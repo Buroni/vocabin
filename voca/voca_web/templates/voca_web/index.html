@@ -1,6 +1,10 @@
 {% extends "voca_web/base.html" %}
 {% load static %}
 
+{% block version_info %}
+    v{{ version }}
+{% endblock %}
+
 {% block main_content %}
     <div id="app"></div>
 {% endblock main_content %}

@@ -1,8 +1,12 @@
+import environ
 from django.shortcuts import render
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login
 from django.contrib.auth.models import User
 from django.utils.crypto import get_random_string
 from functools import wraps
+
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env()
 
 
 def allow_lazy_auth(func):
@@ -19,7 +23,8 @@ def allow_lazy_auth(func):
 
 @allow_lazy_auth
 def index(request):
-    return render(request, "voca_web/index.html", {})
+    version = env("VERSION")
+    return render(request, "voca_web/index.html", {"version": version})
 
 
 def about(request):
