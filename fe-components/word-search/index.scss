@@ -63,3 +63,8 @@ a:hover {
 .is-checkradio[type=checkbox].is-info:checked + label::after, .is-checkradio[type=checkbox].is-info:checked + label:after {
     border-color: #3273dc !important;
 }
+
+.tooltip.is-tooltip-multiline::before {
+  white-space: pre-line !important;
+  width: 23em;
+}

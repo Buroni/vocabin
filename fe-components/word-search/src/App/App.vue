@@ -56,8 +56,8 @@
                               <label style="padding-right: 0" for="exampleCheckboxInfo">Show all inflections</label>
                               <button
                                 style="width: 0; height: 0; padding: 0.3em 0 0 0; background: white; border: 0; outline: none;"
-                                data-tooltip="Return sentence results for all inflections of the search word"
-                                class="button has-tooltip-top"
+                                data-tooltip="Return sentence results for all inflections of the search word. Uncheck this to speed up search results if you only want to search a single word form."
+                                class="button tooltip is-tooltip-bottom is-tooltip-multiline"
                                 @mouseover="showTooltip = true;"
                                 @mouseleave="showTooltip = false;"
                                 :class="showTooltip && 'has-tooltip-active'"
@@ -86,7 +86,7 @@
                     <i class="fas fa-list head-icon"></i>
                     Fetching results...
                     </p>
-                    <p style="font-size: 0.9em; opacity: 0.8;">This might take a minute for highly-inflected languages!</p>
+                    <p v-if="doInflect" style="font-size: 0.9em; opacity: 0.8;">This might take a minute for highly-inflected languages!</p>
                 </div>
                 <div v-else-if="!loading && !noResults">
                     <Conjugations :response="response">
