@@ -1,51 +1,53 @@
 {% load static %}
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-    <div class="navbar-brand">
-        <a class="navbar-item site-header is-info" href="/">
-            <img src="{% static 'vocabin-1.svg' %%}" style="padding-right: 0.5em;"/>
-            <b>Vocabin</b>
-        </a>
-
-        <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-            <span aria-hidden="true"></span>
-        </a>
-    </div>
-
-    <div id="navbarBasicExample" class="navbar-menu">
-        <div class="navbar-start">
-            <a class="navbar-item" href="/about">
-                About
+<div class="load-screen" style="display: none;">
+    <nav class="navbar" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item site-header is-info" href="/">
+                <img src="{% static 'vocabin-1.svg' %%}" style="padding-right: 0.5em;"/>
+                <b>Vocabin</b>
             </a>
 
-            <a class="navbar-item" href="/languages">
-                Languages
-            </a>
-
-            <a class="navbar-item" href="/contact">
-                Contact
+            <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
+                <span aria-hidden="true"></span>
             </a>
         </div>
 
-        <div class="navbar-end">
-            <div class="navbar-item has-text-grey">
-                {% block version_info %}
-                v{{ version }}
-                {% endblock %}
-            </div>
-            <div class="navbar-item" style="padding-left: 0.2em;">
-                <a href="https://github.com/Buroni/vocabin" target="_blank">
-                    <img src="{% static 'github.png' %}" class="github-logo"/>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="/about">
+                    About
+                </a>
+
+                <a class="navbar-item" href="/languages">
+                    Languages
+                </a>
+
+                <a class="navbar-item" href="/contact">
+                    Contact
                 </a>
             </div>
-        </div>
-    </div>
-</nav>
 
-{% block main_content %}
-{% endblock main_content %}
+            <div class="navbar-end">
+                <div class="navbar-item has-text-grey">
+                    {% block version_info %}
+                    v{{ version }}
+                    {% endblock %}
+                </div>
+                <div class="navbar-item" style="padding-left: 0.2em;">
+                    <a href="https://github.com/Buroni/vocabin" target="_blank">
+                        <img src="{% static 'github.png' %}" class="github-logo"/>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    {% block main_content %}
+    {% endblock main_content %}
+</div>
 
 <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
 <script src="{% static 'base.js' %}"></script>
