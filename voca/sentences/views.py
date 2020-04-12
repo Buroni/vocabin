@@ -46,8 +46,9 @@ class SentenceFormsView(SentenceListMixin, APIView):
         nlp = NLP(language)
         categories = self.get_categories(request)
         response = {"sentences": []}
-        word_forms = nlp.get_word_forms(word)
         difficulty = int(request.GET.get("difficulty")) if request.GET.get("difficulty") else None
+        inflect = True if request.GET.get("inflect") == "true" else False
+        word_forms = nlp.get_word_forms(word) if inflect else [word]
         res = query_sentences(word_forms, difficulty, categories, language)
 
         for w in word_forms:
