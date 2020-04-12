@@ -39,6 +39,8 @@ $section-padding: 3rem 16rem;
 @import "./node_modules/bulma/sass/components/_all.sass";
 @import "./node_modules/bulma/sass/layout/_all.sass";
 @import "./node_modules/bulma/sass/grid/_all.sass";
+@import "./node_modules/bulma-checkradio/dist/css/bulma-checkradio.sass";
+@import "./node_modules/bulma-tooltip/src/sass/index.sass";
 
 h3 {
     margin-bottom: 0.5em !important;
@@ -56,4 +58,8 @@ a:hover {
 
 .load-screen {
    display: block !important;
+}
+
+.is-checkradio[type=checkbox].is-info:checked + label::after, .is-checkradio[type=checkbox].is-info:checked + label:after {
+    border-color: #3273dc !important;
 }

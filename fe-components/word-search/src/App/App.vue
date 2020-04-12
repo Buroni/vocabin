@@ -29,26 +29,42 @@
                             </button>
                         </div>
                     </div>
-                    <div class="select">
-                        <select v-model="lang">
-                            <option value="en">English</option>
-                            <option value="fr">French</option>
-                            <option value="de">German</option>
-                        </select>
-                    </div>
-                    <div class="select">
-                        <select v-model="difficulty">
-                            <option value="">Any difficulty</option>
-                            <option value="0">Only simple results</option>
-                        </select>
-                    </div>
-                    <div class="select">
-                        <select v-model="category">
-                            <option value="">Any category</option>
-                            <option value="news">News</option>
-                            <option value="web">Web</option>
-                            <option value="kids" disabled>Kids (coming soon)</option>
-                        </select>
+                    <div style="display: flex; align-items: center;">
+                        <div class="select">
+                            <select v-model="lang">
+                                <option value="en">English</option>
+                                <option value="fr">French</option>
+                                <option value="de">German</option>
+                            </select>
+                        </div>
+                        <div class="select">
+                            <select v-model="difficulty">
+                                <option value="">Any difficulty</option>
+                                <option value="0">Only simple results</option>
+                            </select>
+                        </div>
+                        <div class="select">
+                            <select v-model="category">
+                                <option value="">Any category</option>
+                                <option value="news">News</option>
+                                <option value="web">Web</option>
+                                <option value="kids" disabled>Kids (coming soon)</option>
+                            </select>
+                        </div>
+                        <div style="padding-left: 1em;">
+                          <input v-model="doInflect" class="is-checkradio is-info" id="exampleCheckboxInfo" type="checkbox" name="exampleCheckboxInfo" checked="checked">
+                              <label style="padding-right: 0" for="exampleCheckboxInfo">Show all inflections</label>
+                              <button
+                                style="width: 0; height: 0; padding: 0.3em 0 0 0; background: white; border: 0; outline: none;"
+                                data-tooltip="Return sentence results for all inflections of the search word"
+                                class="button has-tooltip-top"
+                                @mouseover="showTooltip = true;"
+                                @mouseleave="showTooltip = false;"
+                                :class="showTooltip && 'has-tooltip-active'"
+                                    >
+                                    <i style="opacity: 0.6;" class="fas fa-question-circle has-tooltip-active has-tooltip-top"></i>
+                              </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -66,7 +82,11 @@
                     <ErrorCard :message="errorMessage"></ErrorCard>
                 </div>
                 <div v-if="loading && !errorMessage">
+                    <p>
+                    <i class="fas fa-list head-icon"></i>
                     Fetching results...
+                    </p>
+                    <p style="font-size: 0.9em; opacity: 0.8;">This might take a minute for highly-inflected languages!</p>
                 </div>
                 <div v-else-if="!loading && !noResults">
                     <Conjugations :response="response">
@@ -102,9 +122,11 @@ export default class App extends Vue {
     lang: string = "en";
     difficulty = "";
     category = "";
+    doInflect = true;
     loading = false;
     noResults = false;
     errorMessage: string | null = null;
+    showTooltip = false;
 
     get showSectionBox() {
         return this.response || this.noResults || this.loading;
@@ -116,7 +138,8 @@ export default class App extends Vue {
         this.resetParams();
         const params = {
             difficulty: this.difficulty,
-            category: this.category
+            category: this.category,
+            inflect: this.doInflect
         };
         try {
             const res = await vocaAPI.get(`${this.lang}/${this.searchTerm}/`, params);
