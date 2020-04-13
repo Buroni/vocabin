@@ -51,20 +51,6 @@
                                 <option value="kids" disabled>Kids (coming soon)</option>
                             </select>
                         </div>
-                        <div style="padding-left: 1em;">
-                          <input v-model="doInflect" class="is-checkradio is-info" id="exampleCheckboxInfo" type="checkbox" name="exampleCheckboxInfo" checked="checked">
-                              <label style="padding-right: 0" for="exampleCheckboxInfo">Show all inflections</label>
-                              <button
-                                style="width: 0; height: 0; padding: 0.3em 0 0 0; background: white; border: 0; outline: none;"
-                                data-tooltip="Return sentence results for all inflections of the search word. Uncheck this to speed up search results if you only want to search a single word form."
-                                class="button tooltip is-tooltip-bottom is-tooltip-multiline"
-                                @mouseover="showTooltip = true;"
-                                @mouseleave="showTooltip = false;"
-                                :class="showTooltip && 'has-tooltip-active'"
-                                    >
-                                    <i style="opacity: 0.6;" class="fas fa-question-circle has-tooltip-active has-tooltip-top"></i>
-                              </button>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -86,7 +72,6 @@
                     <i class="fas fa-list head-icon"></i>
                     Fetching results...
                     </p>
-                    <p v-if="doInflect" style="font-size: 0.9em; opacity: 0.8;">This might take a minute for highly-inflected languages!</p>
                 </div>
                 <div v-else-if="!loading && !noResults">
                     <Conjugations :response="response">
@@ -118,16 +103,15 @@ const components = {
 export default class App extends Vue {
 
     response: any = null;
-    searchTerm: string | null = null;
-    doInflect = true;
     loading = false;
     noResults = false;
     errorMessage: string | null = null;
     showTooltip = false;
 
+    @ProvideReactive() searchTerm: string | null = null;
     @ProvideReactive() lang: string = "en";
-    @ProvideReactive() difficulty = "";
-    @ProvideReactive() category = "";
+    @ProvideReactive() difficulty: string = "";
+    @ProvideReactive() category: string = "";
 
     get showSectionBox() {
         return this.response || this.noResults || this.loading;
@@ -137,13 +121,8 @@ export default class App extends Vue {
     async get() {
         this.loading = true;
         this.resetParams();
-        const params = {
-            difficulty: this.difficulty,
-            category: this.category,
-            inflect: this.doInflect
-        };
         try {
-            const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`, params);
+            const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`);
             if (res.data["forms"].length === 0) {
                 this.noResults = true;
             }

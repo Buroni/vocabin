@@ -1,4 +1,5 @@
 export const buildQueryString = (params) => {
+    if (!params) return "";
     const esc = encodeURIComponent;
     return Object.keys(params)
         .filter(k => params[k] !== "")

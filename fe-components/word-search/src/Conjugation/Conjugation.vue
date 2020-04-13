@@ -62,23 +62,52 @@ import Vue from "vue";
 import "reflect-metadata";
 import { Component, Prop, InjectReactive } from "vue-property-decorator";
 import vocaAPI from "../api";
+import { ResultsCache } from "./types";
 
 const components = { Caret, ErrorCard };
 
 @Component({ components })
 export default class Conjugation extends Vue {
-    public expanded = false;
-    public loading = false;
-    public sentences: any[] = [];
-    public noResults = false;
-    public errorMessage: string | null = null;
+    expanded = false;
+    loading = false;
+    sentences: any[] = [];
+    noResults = false;
+    errorMessage: string | null = null;
 
     @Prop() word: string;
     @Prop() pos: string;
 
+    @InjectReactive() searchTerm: string;
     @InjectReactive() lang: string;
     @InjectReactive() difficulty: string;
     @InjectReactive() category: string
+    
+    _cache: ResultsCache | null = null;
+
+    cache(): any | null {
+        if (!this._cache) return null;
+        const {searchTerm, lang, difficulty, category} = this._cache.options;
+        if (
+            searchTerm !== this.searchTerm ||
+            lang !== this.lang ||
+            difficulty !== this.difficulty ||
+            category !== this.category) {
+            return null;
+        }
+        return {"data": {"sentences": this._cache.sentences}};
+    }
+
+    setCache() {
+        this._cache = {
+            options: {
+                searchTerm: this.searchTerm,
+                lang: this.lang,
+                category: this.category,
+                difficulty: this.difficulty
+            },
+            sentences: this.sentences
+        }
+    }
 
     get wordType() {
         return posTagToReadable(this.pos);
@@ -96,12 +125,17 @@ export default class Conjugation extends Vue {
             category: this.category
         };
         try {
-            const res = await vocaAPI.get(`sentences/${this.lang}/${this.word}/`, params);
+            const cache = this.cache();
+            const res = cache || await vocaAPI.get(`sentences/${this.lang}/${this.word}/`, params);
             if (res.data["sentences"].length === 0) {
                 this.noResults = true;
             }
             this.sentences = res.data["sentences"];
             this.loading = false;
+            // Update cache if necessary
+            if (!cache) {
+                this.setCache();
+            }
         } catch(e) {
             this.handleErr(e);
         }
