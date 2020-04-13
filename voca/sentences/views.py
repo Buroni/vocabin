@@ -51,6 +51,7 @@ class SentenceListView(SentenceListMixin, APIView):
         sentences = Sentence.objects.filter(
             content__regex=r"\b(" + word + r")\b",
             **nlp.build_difficulty_filter(difficulty),
+            reports__lte=3,
             language__exact=language,
             category__in=categories
         )[:10]
