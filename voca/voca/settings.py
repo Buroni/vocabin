@@ -30,9 +30,13 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = env('DEBUG')
 
-CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_SECURE = True
+# GCloud API credentials
+os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = env("GOOGLE_APPLICATION_CREDENTIALS")
+
 SECURE_REFERRER_POLICY = "same-origin"
+CSRF_COOKIE_HTTPONLY = False
+CSRF_COOKIE_SECURE = not env("DEBUG")
+SESSION_COOKIE_SECURE = not env("DEBUG")
 SECURE_SSL_REDIRECT = not env("DEBUG")
 
 ALLOWED_HOSTS = ["localhost", "104.247.76.243", "vps54246.inmotionhosting.com", "vocabin.net"]
@@ -43,6 +47,7 @@ REST_FRAMEWORK = {
     ],
     'DEFAULT_THROTTLE_RATES': {
         'burst': '60/min',
+        'gcloud': '5/min',
     }
 }
 

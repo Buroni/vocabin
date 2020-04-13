@@ -1,5 +1,7 @@
+import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse
+from google.cloud import translate_v2 as translate
 from rest_framework import permissions, viewsets
 from rest_framework.decorators import api_view
 from rest_framework.generics import GenericAPIView
@@ -9,7 +11,7 @@ from .fields import Category
 from .models import Sentence
 from .serializers import UserSerializer, SentenceSerializer
 from .nlp import NLP
-from .throttles import BurstRateThrottle
+from .throttles import BurstRateThrottle, GCloudThrottle
 
 
 class SentenceListMixin:
@@ -55,7 +57,8 @@ class SentenceListView(SentenceListMixin, APIView):
         sentences_list = [{
             "word": word,
             "sentence": s.content,
-            "category": s.category } for s in sentences]
+            "id": s.ref_id,
+            "category": s.category} for s in sentences]
         return Response({"sentences": sentences_list})
 
 
@@ -84,6 +87,19 @@ class SentenceReportView(GenericAPIView):
         s.reports += 1
         s.save()
         return HttpResponse(status=204)
+
+
+# Throttled wrapper around the Google Translate API
+class SentenceTranslateView(GenericAPIView):
+    translate_client = translate.Client()
+    permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [GCloudThrottle]
+
+    def post(self, request):
+        sentence = request.data["sentence"]
+        target_lang = request.data["target_lang"]
+        result = self.translate_client.translate(sentence, target_language=target_lang)
+        return Response({"translation": result["translatedText"]})
 
 
 class UserViewSet(viewsets.ModelViewSet):

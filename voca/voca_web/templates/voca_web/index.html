@@ -2,6 +2,7 @@
 {% load static %}
 
 {% block main_content %}
+    <form>{% csrf_token %}</form>
     <div id="app"></div>
 {% endblock main_content %}
 

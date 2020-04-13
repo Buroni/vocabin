@@ -48,6 +48,9 @@
                         </div>
                     </div>
                     <div v-html="highlightSentence(item.sentence)"></div>
+                    <div style="padding-top: 1.5em">
+                        <Translate :sentence="item.sentence"></Translate>
+                    </div>
                 </div>
             </div>
         </div>
@@ -58,13 +61,14 @@
 import { posTagToReadable } from "../utils";
 import Caret from "../Caret/Caret";
 import ErrorCard from "../ErrorCard/ErrorCard";
+import Translate from "../Translate/Translate";
 import Vue from "vue";
 import "reflect-metadata";
 import { Component, Prop, InjectReactive } from "vue-property-decorator";
 import vocaAPI from "../api";
 import { ResultsCache } from "./types";
 
-const components = { Caret, ErrorCard };
+const components = { Caret, ErrorCard, Translate };
 
 @Component({ components })
 export default class Conjugation extends Vue {

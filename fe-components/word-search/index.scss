@@ -50,6 +50,11 @@ a:hover {
     color: #3273dc !important;
 }
 
+.fake-link {
+    color: #3273dc;
+    cursor: pointer;
+}
+
 .github-logo {
     opacity: 0.7;
     width: 25px;
@@ -80,4 +85,13 @@ a:hover {
     .footer-text {
         opacity: 0.7;
     }
+}
+
+.translation {
+    opacity: 0.8;
+}
+
+.see-translation {
+    font-size: 0.9em;
+    opacity: 0.9;
 }

@@ -1,7 +1,7 @@
 from django.urls import include, path
 from rest_framework.routers import DefaultRouter
 
-from .views import index, SentenceDetailView, SentenceFormsView, SentenceListView, SentenceReportView, UserViewSet
+from .views import index, SentenceDetailView, SentenceFormsView, SentenceListView, SentenceReportView, SentenceTranslateView, UserViewSet
 
 router = DefaultRouter()
 router.register('user', UserViewSet)
@@ -15,5 +15,6 @@ urlpatterns = [
     path('report/', SentenceReportView.as_view(), name='report'),
     path('forms/<str:language>/<str:word>/', SentenceFormsView.as_view(), name='sentence-forms'),
     path('sentences/<str:language>/<str:word>/', SentenceListView.as_view(), name='sentence-list'),
+    path('translate/', SentenceTranslateView.as_view(), name='sentence-translate'),
     path('<str:pk>/', SentenceDetailView.as_view(), name='sentence-detail'),
 ]
