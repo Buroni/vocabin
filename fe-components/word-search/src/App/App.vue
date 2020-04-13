@@ -32,9 +32,12 @@
                     <div style="display: flex; align-items: center;">
                         <div class="select">
                             <select v-model="lang">
+                                <option value="nl">Dutch</option>
                                 <option value="en">English</option>
                                 <option value="fr">French</option>
                                 <option value="de">German</option>
+                                <option value="it">Italian</option>
+                                <option value="es">Spanish</option>
                             </select>
                         </div>
                         <div class="select">

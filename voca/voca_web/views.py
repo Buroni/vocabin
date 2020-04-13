@@ -37,3 +37,11 @@ def languages(request):
 
 def contact(request):
     return render(request, "voca_web/contact.html", {"version": version})
+
+
+def tos(request):
+    return render(request, "voca_web/tos.html", {"version": version})
+
+
+def privacy(request):
+    return render(request, "voca_web/privacy.html", {"version": version})

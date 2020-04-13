@@ -6,7 +6,10 @@ voca/data_processing_ml/
 voca/data/scraper/
 voca/data/de/
 voca/data/en/
+voca/data/es/
 voca/data/fr/
+voca/data/it/
+voca/data/nl/
 voca/data/add_to_model/__pycache__/
 voca/data/__pycache__/
 voca/sentences/__pycache__/

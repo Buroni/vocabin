@@ -56,10 +56,6 @@ a:hover {
     height: 25px;
 }
 
-.load-screen {
-   display: block !important;
-}
-
 .is-checkradio[type=checkbox].is-info:checked + label::after, .is-checkradio[type=checkbox].is-info:checked + label:after {
     border-color: #3273dc !important;
 }
@@ -67,4 +63,21 @@ a:hover {
 .tooltip.is-tooltip-multiline::before {
   white-space: pre-line !important;
   width: 23em;
+}
+
+.load-screen {
+    height: 100%;
+    display: flex !important;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.footer {
+    width: 100%;
+    padding: 0.6em;
+    margin-top: auto;
+
+    .footer-text {
+        opacity: 0.7;
+    }
 }

@@ -14,6 +14,14 @@ sen_features = {
     "es": {
         "sentence_length": [10, 20, 30],
         "word_length_thresh": 11
+    },
+    "it": {
+        "sentence_length": [10, 20, 30],
+        "word_length_thresh": 12
+    },
+    "nl": {
+        "sentence_length": [10, 20, 30],
+        "word_length_thresh": 12
     }
 }
 
@@ -28,6 +36,10 @@ class NLP:
             from pattern.fr import parse, pluralize, singularize, verbs
         elif lang == "es":
             from pattern.es import parse, pluralize, singularize, verbs
+        elif lang == "it":
+            from pattern.it import parse, pluralize, singularize, verbs
+        elif lang == "nl":
+            from pattern.nl import parse, pluralize, singularize, verbs
         else:
             raise NotImplementedError(f"Language code {lang} not supported.")
         self.parse = parse

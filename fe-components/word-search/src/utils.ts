@@ -44,7 +44,7 @@ export const posTagToReadable = (pos) => {
         return "Noun (plural)"
     }
     if (pos === "VB") {
-        return "Verb (base)";
+        return "Verb";
     }
     if (pos === "VBD") {
         return "Verb (past)";
