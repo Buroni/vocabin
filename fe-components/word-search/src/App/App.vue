@@ -63,7 +63,8 @@
             <article class="message is-gray" v-if="!showSectionBox">
               <div class="message-body" style="border-color: #3273dc;">
                 <p><b>Vocabin</b> is a language-learning tool which shows example sentences for each inflection of a given word.
-                Sentences can be filtered by difficulty level and category. Enter a word above to try it out!</p>
+                Sentences can be filtered by difficulty level and category.</p>
+                <p style="padding-top: 0.5em;">Select your target language from the dropdown, then search a word in that language to try it out!</p>
               </div>
             </article>
             <div class="box" v-if="showSectionBox">
