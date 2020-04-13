@@ -8,7 +8,6 @@ from rest_framework.views import APIView
 from .fields import Category
 from .models import Sentence
 from .serializers import UserSerializer, SentenceSerializer
-from .sql import query_sentences
 from .nlp import NLP
 from .throttles import BurstRateThrottle
 
@@ -26,16 +25,6 @@ class SentenceListMixin:
         nlp = NLP(language)
         difficulty = int(request.query_params.get('difficulty', -1))
         return nlp.get_min_max_score(difficulty, categories)
-
-    @staticmethod
-    def get_difficulty_from_score(score, language, categories):
-        difficulties = NLP.get_avg_difficulties(language, categories)
-        if score < difficulties[1]:
-            return "easy"
-        elif difficulties[1] <= score < difficulties[2]:
-            return "moderate"
-        else:
-            return "difficult"
 
 
 class SentenceFormsView(SentenceListMixin, APIView):

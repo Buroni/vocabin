@@ -87,6 +87,7 @@ export default class Conjugation extends Vue {
     cache(): any | null {
         if (!this._cache) return null;
         const {searchTerm, lang, difficulty, category} = this._cache.options;
+        // Check cache isn't stale
         if (
             searchTerm !== this.searchTerm ||
             lang !== this.lang ||
