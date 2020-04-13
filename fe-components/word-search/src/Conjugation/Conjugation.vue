@@ -4,7 +4,7 @@
 
 <template>
     <div class="Conjugation">
-        <div :class="noResults">
+        <div>
             <div class="fake-link" @click="toggle">
                 <div class="columns">
                     <div class="column is-7">
@@ -13,16 +13,25 @@
                             <Caret class="caret" :key="expanded" :expanded="expanded"></Caret>
                         </h1>
                     </div>
-                    <div class="column is-3">
+                    <div class="column is-5">
                         <span class="subtitle is-size-6">{{ wordType }}</span>
-                    </div>
-                    <div class="column">
-                        <span class="subtitle is-size-6">{{ sentences.length }} results</span>
                     </div>
                 </div>
             </div>
             <div v-if="expanded">
-                <div v-for="item in sentences" class="sentence-item">
+                <div v-if="errorMessage" style="padding-top: 0.5em;">
+                    <ErrorCard :message="errorMessage"></ErrorCard>
+                </div>
+                <div v-else-if="loading" style="padding-top: 0.5em;">
+                    <p>
+                        <i class="fas fa-list head-icon"></i>
+                        Fetching results...
+                    </p>
+                </div>
+                <div v-else-if="noResults">
+                    No results found for "{{ word }}"!
+                </div>
+                <div v-else v-for="item in sentences" class="sentence-item">
                     <div class="columns tag-columns">
                         <div class="column">
                             <div class="tags are-small">
@@ -48,19 +57,28 @@
 <script>
 import { posTagToReadable } from "../utils";
 import Caret from "../Caret/Caret";
+import ErrorCard from "../ErrorCard/ErrorCard";
 import Vue from "vue";
 import "reflect-metadata";
-import { Component, Prop } from "vue-property-decorator";
+import { Component, Prop, InjectReactive } from "vue-property-decorator";
+import vocaAPI from "../api";
 
-const components = { Caret };
+const components = { Caret, ErrorCard };
 
 @Component({ components })
 export default class Conjugation extends Vue {
     public expanded = false;
+    public loading = false;
+    public sentences: any[] = [];
+    public noResults = false;
+    public errorMessage: string | null = null;
 
     @Prop() word: string;
-    @Prop() sentences: any[];
     @Prop() pos: string;
+
+    @InjectReactive() lang: string;
+    @InjectReactive() difficulty: string;
+    @InjectReactive() category: string
 
     get wordType() {
         return posTagToReadable(this.pos);
@@ -70,9 +88,28 @@ export default class Conjugation extends Vue {
         return this.expanded ? "hide" : "show";
     }
 
-    get noResults() {
-         return this.sentences.length === 0 ? "no-results" : "";
-     }
+    async get() {
+        this.loading = true;
+        this.noResults = false;
+        const params = {
+            difficulty: this.difficulty,
+            category: this.category
+        };
+        try {
+            const res = await vocaAPI.get(`sentences/${this.lang}/${this.word}/`, params);
+            if (res.data["sentences"].length === 0) {
+                this.noResults = true;
+            }
+            this.sentences = res.data["sentences"];
+            this.loading = false;
+        } catch(e) {
+            this.handleErr(e);
+        }
+    }
+
+     handleErr(e) {
+           this.errorMessage = e.message;
+    }
 
     onReportClick(item) {
         this.$emit("reportClicked", item);
@@ -80,6 +117,9 @@ export default class Conjugation extends Vue {
 
     toggle() {
         this.expanded = !this.expanded;
+        if (this.expanded) {
+            this.get();
+        }
     }
 
     categoryIconClass(cat) {

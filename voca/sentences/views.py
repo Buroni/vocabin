@@ -44,23 +44,30 @@ class SentenceFormsView(SentenceListMixin, APIView):
 
     def get(self, request, language, word):
         nlp = NLP(language)
-        categories = self.get_categories(request)
-        response = {"sentences": []}
-        difficulty = int(request.GET.get("difficulty")) if request.GET.get("difficulty") else None
-        inflect = True if request.GET.get("inflect") == "true" else False
-        word_forms = nlp.get_word_forms(word) if inflect else [word]
-        res = query_sentences(word_forms, difficulty, categories, language)
-
-        for w in word_forms:
-            sentences_list = [{
-                "source": s[2],
-                "sentence": s[1],
-                "id": s[0],
-                "category": s[3]} for s in res if s[4] == w]
-            entry = {"word": w, "pos": nlp.get_pos_tag(w), "sentences": sentences_list}
-            response["sentences"].append(entry)
-        response["forms"] = word_forms
+        word_forms = nlp.get_word_forms(word)
+        response = {"forms": [{"word": w, "pos": nlp.get_pos_tag(w)} for w in word_forms]}
         return Response(response)
+
+
+class SentenceListView(SentenceListMixin, APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    throttle_classes = [BurstRateThrottle]
+
+    def get(self, request, language, word):
+        nlp = NLP(language)
+        categories = self.get_categories(request)
+        difficulty = int(request.GET.get("difficulty")) if request.GET.get("difficulty") else None
+        sentences = Sentence.objects.filter(
+            content__regex=r"\b(" + word + r")\b",
+            **nlp.build_difficulty_filter(difficulty),
+            language__exact=language,
+            category__in=categories
+        )[:10]
+        sentences_list = [{
+            "word": word,
+            "sentence": s.content,
+            "category": s.category } for s in sentences]
+        return Response({"sentences": sentences_list})
 
 
 class SentenceDetailView(GenericAPIView):

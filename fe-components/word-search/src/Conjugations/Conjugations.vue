@@ -2,11 +2,10 @@
     <div class="Conjugations">
         <ReportModal :item="reportItem" @closeModal="setReportItem(null)"></ReportModal>
         <Conjugation
-            v-for="sentence in response.sentences"
+            v-for="form in response.forms"
             @reportClicked="setReportItem"
-            :word="sentence.word"
-            :sentences="sentence.sentences"
-            :pos="sentence.pos"></Conjugation>
+            :word="form.word"
+            :pos="form.pos"></Conjugation>
     </div>
 </template>
 

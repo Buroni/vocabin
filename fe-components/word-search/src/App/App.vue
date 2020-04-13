@@ -107,7 +107,7 @@ import ErrorCard from "../ErrorCard/ErrorCard";
 import { noResults } from "../utils";
 import Vue from "vue";
 import "reflect-metadata";
-import { Component } from "vue-property-decorator";
+import { Component, ProvideReactive } from "vue-property-decorator";
 
 const components = {
     Conjugations,
@@ -119,14 +119,15 @@ export default class App extends Vue {
 
     response: any = null;
     searchTerm: string | null = null;
-    lang: string = "en";
-    difficulty = "";
-    category = "";
     doInflect = true;
     loading = false;
     noResults = false;
     errorMessage: string | null = null;
     showTooltip = false;
+
+    @ProvideReactive() lang: string = "en";
+    @ProvideReactive() difficulty = "";
+    @ProvideReactive() category = "";
 
     get showSectionBox() {
         return this.response || this.noResults || this.loading;
@@ -142,8 +143,8 @@ export default class App extends Vue {
             inflect: this.doInflect
         };
         try {
-            const res = await vocaAPI.get(`${this.lang}/${this.searchTerm}/`, params);
-            if (noResults(res.data)) {
+            const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`, params);
+            if (res.data["forms"].length === 0) {
                 this.noResults = true;
             }
             this.response = res.data;
