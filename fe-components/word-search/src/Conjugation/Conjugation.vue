@@ -58,13 +58,12 @@
 </template>
 
 <script>
-import { posTagToReadable } from "../utils";
 import Caret from "../Caret/Caret";
 import ErrorCard from "../ErrorCard/ErrorCard";
 import Translate from "../Translate/Translate";
 import Vue from "vue";
 import "reflect-metadata";
-import { Component, Prop, InjectReactive } from "vue-property-decorator";
+import { Component, Prop, Inject, InjectReactive } from "vue-property-decorator";
 import vocaAPI from "../api";
 import { ResultsCache } from "./types";
 
@@ -78,10 +77,7 @@ export default class Conjugation extends Vue {
     noResults = false;
     errorMessage: string | null = null;
 
-    @Prop() word: string;
-    @Prop() pos: string;
-    @Prop() group: string;
-    @Prop() wordType: string;
+    @Prop() form: any;
 
     @InjectReactive() searchTerm: string;
     @InjectReactive() lang: string;
@@ -118,6 +114,18 @@ export default class Conjugation extends Vue {
 
     get showHide() {
         return this.expanded ? "hide" : "show";
+    }
+
+    get word(): string {
+        return this.form.word;
+    }
+
+    get group(): string {
+        return this.form.group;
+    }
+
+    get wordType(): string {
+        return this.form.word_type;
     }
 
     async get() {

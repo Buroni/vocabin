@@ -2,12 +2,17 @@
     <div class="Conjugations">
         <ReportModal :item="reportItem" @closeModal="setReportItem(null)"></ReportModal>
         <Conjugation
-            v-for="form in response.forms"
             @reportClicked="setReportItem"
-            :word="form.word"
-            :group="form.group"
-            :wordType="form.word_type"
-            :pos="form.pos"></Conjugation>
+            :form="userSearchForm">
+        </Conjugation>
+        <div v-for="groupName in Object.keys(groups)">
+            <div v-html="groupName"></div>
+            <Conjugation
+                v-for="form in groups[groupName]"
+                @reportClicked="setReportItem"
+                :form="form">
+            </Conjugation>
+        </div>
     </div>
 </template>
 
@@ -28,6 +33,23 @@ export default class Conjugations extends Vue {
     @Prop() response: any;
 
     reportItem: any | null = null;
+
+    get userSearchForm() {
+        return this.response.forms[0];
+    }
+
+    get groups() {
+        const groups = {};
+        this.response.forms.forEach(form => {
+            const groupNames = Object.keys(groups);
+            if (!groupNames.includes(form.group)) {
+                groups[form.group] = [form];
+            } else {
+                groups[form.group].push(form);
+            }
+        });
+        return groups;
+    }
 
     setReportItem(item) {
         this.reportItem = item;

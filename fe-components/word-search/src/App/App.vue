@@ -6,56 +6,11 @@
     <div>
         <section class="section">
             <div class="App">
-                <div class="box">
-                    <div class="columns">
-                        <div class="column is-10">
-                            <input
-                                class="input"
-                                type="text"
-                                placeholder="Enter a word.."
-                                v-model="searchTerm"
-                                @keydown.enter="get"
-                                />
-                        </div>
-                        <div class="column has-text-right">
-                            <button
-                                    class="button"
-                                    style="width: 100%;"
-                                    @click="get">
-                                <span class="icon is-small">
-                                    <i class="fas fa-search"></i>
-                                </span>
-                                <span>Search</span>
-                            </button>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center;">
-                        <div class="select">
-                            <select v-model="lang">
-                                <option value="nl">Dutch</option>
-                                <option value="en">English</option>
-                                <option value="fr">French</option>
-                                <option value="de">German</option>
-                                <option value="it">Italian</option>
-                                <option value="es">Spanish</option>
-                            </select>
-                        </div>
-                        <div class="select">
-                            <select v-model="difficulty">
-                                <option value="">Any difficulty</option>
-                                <option value="0">Only simple results</option>
-                            </select>
-                        </div>
-                        <div class="select">
-                            <select v-model="category">
-                                <option value="">Any category</option>
-                                <option value="news">News</option>
-                                <option value="web">Web</option>
-                                <option value="kids" disabled>Kids (coming soon)</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
+                <FloatingSearch
+                    @search="search"
+                    @optionsChange="onOptionsChange"
+                >
+                </FloatingSearch>
             </div>
         </section>
 
@@ -67,20 +22,20 @@
                 <p style="padding-top: 0.5em;">Select your target language from the dropdown, then search a word in that language to try it out!</p>
               </div>
             </article>
-            <div class="box" v-if="showSectionBox">
+            <div v-if="showSectionBox">
                 <div v-if="errorMessage">
                     <ErrorCard :message="errorMessage"></ErrorCard>
                 </div>
                 <div v-if="loading && !errorMessage">
-                    <p>
-                    <i class="fas fa-list head-icon"></i>
-                    Fetching results...
-                    </p>
+                    <div class="box">
+                        <i class="fas fa-list head-icon"></i>
+                        Fetching results...
+                    </div>
                 </div>
                 <div v-else-if="!loading && !noResults">
                     <Conjugations :response="response">
                 </div>
-                <div v-else-if="noResults">
+                <div v-else-if="noResults" class="box">
                     No results found for "{{ response.forms[0] }}"!
                 </div>
             </div>
@@ -93,6 +48,7 @@
 import vocaAPI from "../api";
 import Conjugations from "../Conjugations/Conjugations";
 import ErrorCard from "../ErrorCard/ErrorCard";
+import FloatingSearch from "../FloatingSearch/FloatingSearch";
 import { noResults } from "../utils";
 import Vue from "vue";
 import "reflect-metadata";
@@ -100,7 +56,8 @@ import { Component, ProvideReactive } from "vue-property-decorator";
 
 const components = {
     Conjugations,
-    ErrorCard
+    ErrorCard,
+    FloatingSearch,
 };
 
 @Component({ components })
@@ -119,6 +76,17 @@ export default class App extends Vue {
 
     get showSectionBox() {
         return this.response || this.noResults || this.loading;
+    }
+
+    search(searchTerm) {
+        this.searchTerm = searchTerm;
+        this.get();
+    }
+
+    onOptionsChange(options) {
+        this.lang = options.lang;
+        this.difficulty = options.difficulty;
+        this.category = options.category;
     }
 
     /* Fetch sentences for a given search term (word) and store in this.response */
