@@ -1,14 +1,34 @@
 .Conjugations {
-    // Vars
 
-    // Support
-
-    // Module
-    & {
-        //
+    .less-padding {
+        padding: 0.1em;
     }
 
-    // Facets
+    .group {
+        position: relative;
+        padding-top: 2.5em;
+    }
 
-    // States
+    .group-head {
+        display: flex;
+        align-items: center;
+        height: 2.5em;
+        background-color: rgba(50, 115, 220, 0.06);
+        border-bottom: 2px solid rgba(0, 0, 0, 0.1);
+        padding: 0em 1em;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        font-weight: bold;
+    }
+
+    .group-head-meta {
+        padding-left: 0.5em;
+        font-weight: normal;
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+    }
 }

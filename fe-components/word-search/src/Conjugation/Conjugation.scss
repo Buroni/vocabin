@@ -1,7 +1,6 @@
 .Conjugation {
 
-    padding: 1em;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    padding: 1em 0;
 
     .easy {
         background-color: rgb(230, 255, 230);
@@ -23,15 +22,6 @@
     .tag-text {
        padding-left: 0.1em;
        text-transform: capitalize;
-    }
-    .caret {
-        padding-left: 0.5em;
-        padding-top: 0.1em;
-        color: #3273dc;
-    }
-    .word-caret {
-        display: flex;
-        align-items: center;
     }
     .fake-link {
         cursor: pointer;
@@ -56,3 +46,7 @@
         }
     }
 }
+
+.has-border {
+     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+ }

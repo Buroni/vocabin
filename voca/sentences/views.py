@@ -39,6 +39,7 @@ class SentenceFormsView(SentenceListMixin, APIView):
         for w in word_forms:
             typ, group, pos = nlp.get_pos_tag(w)
             response["forms"].append({"word": w, "pos": pos, "word_type": typ, "group": group})
+        response["search_term"] = word
         return Response(response)
 
 

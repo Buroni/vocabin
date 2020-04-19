@@ -1,13 +1,13 @@
 
 $section-padding: 3rem 16rem;
-//$box-shadow: 0;
+$box-radius: 0;
 
 .select {
     margin-right: 0.5em;
 }
 
 .mid-section {
-    padding-top: 0 !important;
+    padding: 3rem 12rem !important;
 }
 
 .navbar {
@@ -99,4 +99,16 @@ a:hover {
 .see-translation {
     font-size: 0.9em;
     opacity: 0.9;
+}
+
+.caret {
+    padding-left: 0.5em;
+    padding-top: 0.1em;
+    color: #3273dc;
+}
+
+.word-caret {
+    display: flex;
+    align-items: center;
+    color: black;
 }

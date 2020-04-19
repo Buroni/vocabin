@@ -3,13 +3,13 @@
 </style>
 
 <template>
-    <div class="Conjugation">
+    <div class="Conjugation" :class="borderClass">
         <div>
             <div class="fake-link" @click="toggle">
                 <div class="columns">
                     <div class="column is-7">
-                        <h1 class="title word-caret is-size-5">
-                            <div>{{ word }}</div>
+                        <h1 class="word-caret subtitle is-size-6">
+                            <div style="margin-left: 1em;">{{ word }}</div>
                             <Caret class="caret" :key="expanded" :expanded="expanded"></Caret>
                         </h1>
                     </div>
@@ -78,6 +78,7 @@ export default class Conjugation extends Vue {
     errorMessage: string | null = null;
 
     @Prop() form: any;
+    @Prop() noBorder: boolean;
 
     @InjectReactive() searchTerm: string;
     @InjectReactive() lang: string;
@@ -110,6 +111,10 @@ export default class Conjugation extends Vue {
             },
             sentences: this.sentences
         }
+    }
+
+    get borderClass() {
+        return !this.noBorder && "has-border";
     }
 
     get showHide() {

@@ -10,9 +10,8 @@
             @optionsChange="onOptionsChange"
         >
         </TopSearch>
-        <section class="section">
+        <section class="section" v-if="!response && !loading">
             <FloatingSearch
-                v-if="!response && !loading"
                 @search="search"
                 @optionsChange="onOptionsChange"
             >
@@ -109,12 +108,6 @@ export default class App extends Vue {
             this.loading = false;
         } catch(e) {
             this.handleErr(e);
-        } finally {
-            var elem = document.getElementById("load-screen");
-            console.log(elem);
-            elem.style.display='none';
-            elem.offsetHeight; // no need to store this anywhere, the reference is enough
-            elem.style.display='flex';
         }
     }
 
