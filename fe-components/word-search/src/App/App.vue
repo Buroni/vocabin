@@ -3,15 +3,20 @@
 </style>
 
 <template>
-    <div>
+    <div class="App">
+        <TopSearch
+            v-if="response || loading"
+            @search="search"
+            @optionsChange="onOptionsChange"
+        >
+        </TopSearch>
         <section class="section">
-            <div class="App">
-                <FloatingSearch
-                    @search="search"
-                    @optionsChange="onOptionsChange"
-                >
-                </FloatingSearch>
-            </div>
+            <FloatingSearch
+                v-if="!response && !loading"
+                @search="search"
+                @optionsChange="onOptionsChange"
+            >
+            </FloatingSearch>
         </section>
 
         <section class="section mid-section">
@@ -49,6 +54,7 @@ import vocaAPI from "../api";
 import Conjugations from "../Conjugations/Conjugations";
 import ErrorCard from "../ErrorCard/ErrorCard";
 import FloatingSearch from "../FloatingSearch/FloatingSearch";
+import TopSearch from "../TopSearch/TopSearch.vue";
 import { noResults } from "../utils";
 import Vue from "vue";
 import "reflect-metadata";
@@ -58,6 +64,7 @@ const components = {
     Conjugations,
     ErrorCard,
     FloatingSearch,
+    TopSearch,
 };
 
 @Component({ components })
@@ -102,6 +109,12 @@ export default class App extends Vue {
             this.loading = false;
         } catch(e) {
             this.handleErr(e);
+        } finally {
+            var elem = document.getElementById("load-screen");
+            console.log(elem);
+            elem.style.display='none';
+            elem.offsetHeight; // no need to store this anywhere, the reference is enough
+            elem.style.display='flex';
         }
     }
 

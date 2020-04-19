@@ -5,7 +5,7 @@
 <template>
     <div class="ButtonTray">
         <div style="display: flex; align-items: center;">
-            <div class="select">
+            <div class="select" :class="sizeClass">
                 <select v-model="reactiveLang">
                     <option value="nl">Dutch</option>
                     <option value="en">English</option>
@@ -15,13 +15,13 @@
                     <option value="es">Spanish</option>
                 </select>
             </div>
-            <div class="select">
+            <div class="select" :class="sizeClass">
                 <select v-model="reactiveDifficulty">
                     <option value="">Any difficulty</option>
                     <option value="0">Only simple results</option>
                 </select>
             </div>
-            <div class="select">
+            <div class="select" :class="sizeClass">
                 <select v-model="reactiveCategory">
                     <option value="">Any category</option>
                     <option value="news">News</option>
@@ -37,13 +37,15 @@
 import Vue from "vue";
 import BaseSearch from "../BaseSearch/BaseSearch";
 import "reflect-metadata";
-import { Component, Inject, Watch } from "vue-property-decorator";
+import { Component, InjectReactive, Prop, Watch } from "vue-property-decorator";
 
 @Component()
 export default class ButtonTray extends Vue {
-    @Inject() lang: string;
-    @Inject() difficulty: string;
-    @Inject() category: string;
+    @Prop() small: boolean;
+
+    @InjectReactive() lang: string;
+    @InjectReactive() difficulty: string;
+    @InjectReactive() category: string;
 
     // App.vue injects properties to this component whose changes are then sent back via reactive*
     // TODO -- Maybe better to use a state management lib like mobx/redux
@@ -51,7 +53,7 @@ export default class ButtonTray extends Vue {
     reactiveDifficulty = null;
     reactiveCategory = null;
 
-    beforeMount() {
+    created() {
         this.reactiveLang = this.lang;
         this.reactiveDifficulty = this.difficulty;
         this.reactiveCategory = this.category;
@@ -63,6 +65,10 @@ export default class ButtonTray extends Vue {
             difficulty: this.reactiveDifficulty,
             category: this.reactiveCategory,
         };
+    }
+
+    get sizeClass() {
+        return this.small && "is-small";
     }
 
     // TODO - Create "WatchAll" decorator

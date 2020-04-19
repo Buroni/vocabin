@@ -1,27 +1,6 @@
 <template>
     <div class="box">
-        <div class="columns">
-            <div class="column is-10">
-                <input
-                    class="input"
-                    type="text"
-                    placeholder="Enter a word.."
-                    v-model="searchTerm"
-                    @keydown.enter="onSearch"
-                    />
-            </div>
-            <div class="column has-text-right">
-                <button
-                        class="button"
-                        style="width: 100%;"
-                        @click="onSearch">
-                    <span class="icon is-small">
-                        <i class="fas fa-search"></i>
-                    </span>
-                    <span>Search</span>
-                </button>
-            </div>
-        </div>
+        <SearchBox @search="onSearch"></SearchBox>
         <ButtonTray
             @optionsChange="onOptionsChange"
         >
@@ -31,21 +10,19 @@
 <script>
 import Vue from "vue";
 import ButtonTray from "../search-options/ButtonTray/ButtonTray";
+import SearchBox from "../search-options/SearchBox/SearchBox";
 import "reflect-metadata";
 import { Component } from "vue-property-decorator";
 
-const components = { ButtonTray };
+const components = { ButtonTray, SearchBox };
 
 @Component({ components })
 export default class FloatingSearch extends Vue {
-    searchTerm: string | null = null;
-
-    onSearch() {
-        this.$emit("search", this.searchTerm);
+    onSearch(val) {
+        this.$emit("search", val);
     }
 
     onOptionsChange(options) {
-        // TODO -- better way than "emission drilling" to pass the message up?
         this.$emit("optionsChange", options);
     }
 }

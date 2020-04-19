@@ -71,16 +71,21 @@ a:hover {
 }
 
 .load-screen {
-    height: 100%;
-    display: flex !important;
-    flex-direction: column;
-    justify-content: flex-start;
+    display: block !important;
+    position: relative;
+    min-height: 100vh;
+}
+
+.content-wrap {
+   padding-bottom: 2.5rem;    /* Footer height */
 }
 
 .footer {
     width: 100%;
     padding: 0.6em;
-    margin-top: auto;
+    height: 2.5rem;
+    position: absolute;
+    bottom: 0;
 
     .footer-text {
         opacity: 0.7;

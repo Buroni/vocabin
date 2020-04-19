@@ -19,56 +19,62 @@
 </head>
 
 <body>
-    <div class="load-screen" style="display: none;">
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item site-header is-info" href="/">
-                    <img src="{% static 'vocabin-1.svg' %%}" style="padding-right: 0.5em;"/>
-                    <b>Vocabin</b>
-                </a>
-
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            <div id="navbarBasicExample" class="navbar-menu">
-                <div class="navbar-start">
-                    <a class="navbar-item" href="/about">
-                        About
+    <div class="load-screen" id="load-screen" style="display: none;">
+        <div class="content-wrap">
+            <nav class="navbar" role="navigation" aria-label="main navigation">
+                <div class="navbar-brand">
+                    <a class="navbar-item site-header is-info" href="/">
+                        <img src="{% static 'vocabin-1.svg' %%}" style="padding-right: 0.5em;"/>
+                        <b>Vocabin</b>
                     </a>
 
-                    <a class="navbar-item" href="/languages">
-                        Languages
-                    </a>
-
-                    <a class="navbar-item" href="/contact">
-                        Contact
+                    <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
                     </a>
                 </div>
 
-                <div class="navbar-end">
-                    <div class="navbar-item has-text-grey">
-                        {% block version_info %}
-                            v{{ version }}
-                        {% endblock version_info %}
-                    </div>
-                    <div class="navbar-item" style="padding-left: 0.2em;">
-                        <a href="https://github.com/Buroni/vocabin" target="_blank">
-                            <img src="{% static 'github.png' %}" class="github-logo"/>
+                <div id="navbarBasicExample" class="navbar-menu">
+                    <div class="navbar-start">
+                        <a class="navbar-item" href="/about">
+                            About
+                        </a>
+
+                        <a class="navbar-item" href="/languages">
+                            Languages
+                        </a>
+
+                        <a class="navbar-item" href="/contact">
+                            Contact
                         </a>
                     </div>
+
+                    <div class="navbar-end">
+                        <div class="navbar-item has-text-grey">
+                            {% block version_info %}
+                                v{{ version }}
+                            {% endblock version_info %}
+                        </div>
+                        <div class="navbar-item" style="padding-left: 0.2em;">
+                            <a href="https://github.com/Buroni/vocabin" target="_blank">
+                                <img src="{% static 'github.png' %}" class="github-logo"/>
+                            </a>
+                        </div>
+                    </div>
                 </div>
+            </nav>
+
+            <div style="padding-top: 0; margin-top: 0; flex: 1 1 auto;">
+                {% block fe_component %}
+                {% endblock fe_component %}
             </div>
-        </nav>
 
-        <div style="padding-top: 2em;">
-            {% block main_content %}
-            {% endblock main_content %}
+            <div style="padding-top: 2em;">
+                {% block main_content %}
+                {% endblock main_content %}
+            </div>
         </div>
-
         <footer class="footer">
             <div class="content has-text-centered">
                 <p class="footer-text">
@@ -81,6 +87,7 @@
                 </p>
             </div>
         </footer>
+        </div>
     </div>
 
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>

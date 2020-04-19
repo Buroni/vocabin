@@ -1,10 +1,10 @@
 {% extends "voca_web/base.html" %}
 {% load static %}
 
-{% block main_content %}
-    <form>{% csrf_token %}</form>
+{% block fe_component %}
+    <form style="margin: 0; padding: 0;">{% csrf_token %}</form>
     <div id="app"></div>
-{% endblock main_content %}
+{% endblock fe_component %}
 
 {% block js %}
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
