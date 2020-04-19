@@ -5,8 +5,8 @@
 
 <template>
     <div class="TopSearch">
-        <div style="display: flex; align-items: center;">
-            <div style="flex: 0 0 30%">
+        <div style="display: flex; align-items: center; justify-content: flex-start;">
+            <div style="flex: 0 0 40%;">
                 <input
                     class="input is-small search-box"
                     type="text"
@@ -14,6 +14,9 @@
                     v-model="reactiveSearchTerm"
                     @keydown.enter="onSearch"
                 />
+            </div>
+            <div style="padding-left: 0.5em;">
+                <ButtonTray @optionsChange="onOptionsChange" :small="true"></ButtonTray>
             </div>
             <div style="padding-left: 0.5em;">
                 <button
@@ -24,9 +27,6 @@
                     </span>
                     <span>Search</span>
                 </button>
-            </div>
-            <div style="padding-left: 0.5em; margin-left: auto;">
-                <ButtonTray @optionsChange="onOptionsChange" :small="true"></ButtonTray>
             </div>
         </div>
     </div>

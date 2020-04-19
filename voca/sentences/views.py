@@ -36,10 +36,14 @@ class SentenceFormsView(SentenceListMixin, APIView):
         nlp = NLP(language)
         word_forms = nlp.get_word_forms(word)
         response = {"forms": []}
+        form_objs = []
         for w in word_forms:
             typ, group, pos = nlp.get_pos_tag(w)
-            response["forms"].append({"word": w, "pos": pos, "word_type": typ, "group": group})
+            form_objs.append({"word": w, "pos": pos, "word_type": typ, "group": group})
+            if w == word:
+                search_form_group = group
         response["search_term"] = word
+        response["forms"] = [f for f in form_objs if f["group"] == search_form_group]
         return Response(response)
 
 
