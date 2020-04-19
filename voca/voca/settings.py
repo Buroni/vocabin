@@ -32,6 +32,8 @@ DEBUG = env('DEBUG')
 
 # GCloud API credentials
 os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = env("GOOGLE_APPLICATION_CREDENTIALS")
+# TreeTagger location
+os.environ["TAGDIR"] = env("TAGDIR")
 
 SECURE_REFERRER_POLICY = "same-origin"
 CSRF_COOKIE_HTTPONLY = False

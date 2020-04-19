@@ -5,6 +5,8 @@
             v-for="form in response.forms"
             @reportClicked="setReportItem"
             :word="form.word"
+            :group="form.group"
+            :wordType="form.word_type"
             :pos="form.pos"></Conjugation>
     </div>
 </template>

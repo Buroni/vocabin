@@ -1,3 +1,5 @@
+from .tree_tagger import VocaTagger
+
 sen_features = {
     "en": {
         "sentence_length": [10, 20, 30],
@@ -47,30 +49,23 @@ class NLP:
         self.singularize = singularize
         self.verbs = verbs
         self.lang = lang
+        self.voca_tagger = VocaTagger(lang=lang)
 
     def get_pos_tag(self, word):
-        pos = self.parse(word, chunks=False, relations=False).split("/")[1]
-        # A bug in Pattern causes singular nouns to be tagged as plural.
-        if pos == "NN" and word.lower() == self.pluralize(word).lower():
-            return "NNS"
-        return pos
+        typ, group, pos = self.voca_tagger.word_tag_info(word)
+        return typ, group, pos
 
     def is_verb(self, word):
-        pos = self.get_pos_tag(word)
-        return pos[0] == "V"
+        return self.voca_tagger.is_verb(word)
 
     def is_noun(self, word):
-        pos = self.get_pos_tag(word)
-        return pos[0] == "N"
+        return self.voca_tagger.is_noun(word)
 
     def get_verb_lexeme(self, verb):
         return self.verbs.lexeme(verb)
 
     def get_noun_forms(self, noun):
-        pos = self.get_pos_tag(noun)
-        if pos in ["NNS", "NNPS"]:
-            return [noun, self.singularize(noun)]
-        return [noun, self.pluralize(noun)]
+        return list({self.singularize(noun), self.pluralize(noun)})
 
     def get_word_forms(self, word):
         if self.is_verb(word):
@@ -79,17 +74,6 @@ class NLP:
             return self.get_noun_forms(word)
         else:
             return [word]
-
-    def build_content_filter(self, word, all_forms):
-        if self.is_verb(word) and all_forms == "true":
-            lexeme = self.get_verb_lexeme(word)
-            word_str = r"|".join(lexeme)
-        elif self.is_noun(word) and all_forms == "true":
-            forms = self.get_noun_forms(word)
-            word_str = r"|".join(forms)
-        else:
-            word_str = word
-        return r"\b(" + word_str + r")\b"
 
     def build_difficulty_filter(self, difficulty):
         lang_features = sen_features[self.lang]

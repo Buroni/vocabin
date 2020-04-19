@@ -80,6 +80,8 @@ export default class Conjugation extends Vue {
 
     @Prop() word: string;
     @Prop() pos: string;
+    @Prop() group: string;
+    @Prop() wordType: string;
 
     @InjectReactive() searchTerm: string;
     @InjectReactive() lang: string;
@@ -112,10 +114,6 @@ export default class Conjugation extends Vue {
             },
             sentences: this.sentences
         }
-    }
-
-    get wordType() {
-        return posTagToReadable(this.pos);
     }
 
     get showHide() {

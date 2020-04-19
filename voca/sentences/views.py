@@ -1,4 +1,3 @@
-import json
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from google.cloud import translate_v2 as translate
@@ -36,7 +35,10 @@ class SentenceFormsView(SentenceListMixin, APIView):
     def get(self, request, language, word):
         nlp = NLP(language)
         word_forms = nlp.get_word_forms(word)
-        response = {"forms": [{"word": w, "pos": nlp.get_pos_tag(w)} for w in word_forms]}
+        response = {"forms": []}
+        for w in word_forms:
+            typ, group, pos = nlp.get_pos_tag(w)
+            response["forms"].append({"word": w, "pos": pos, "word_type": typ, "group": group})
         return Response(response)
 
 
@@ -54,7 +56,7 @@ class SentenceListView(SentenceListMixin, APIView):
             reports__lte=3,
             language__exact=language,
             category__in=categories
-        )[:10]
+        )[:5]
         sentences_list = [{
             "word": word,
             "sentence": s.content,
