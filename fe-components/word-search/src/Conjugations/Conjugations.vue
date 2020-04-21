@@ -16,7 +16,11 @@
         >
         </Conjugation>
         </div>
-        <div v-for="groupId in Object.keys(groups)" class="box is-shadowless group" style="margin-top: 2em; border: 0; padding-left: 0;">
+        <div
+            v-if="!inflectionError"
+            class="box is-shadowless group"
+            style="margin-top: 2em; border: 0; padding-left: 0;"
+            >
             <div class="group-head">
                 <i class="fas fa-language" style="color: #3273dc;"></i>
                 <div v-html="groupName(groupId)" style="padding-left: 0.5em;"></div>
@@ -29,6 +33,10 @@
                 @reportClicked="setReportItem"
                 :form="form">
             </Conjugation>
+        </div>
+        <div v-else class="notification is-light" style="display: flex; align-items: center; border: 1px solid rgba(255, 0, 0, 0.7);">
+          <div style="padding-right: 0.5em;"><i class="fas fa-bug" style="width: 1.4em; height: 1.4em; color: red; opacity: 0.7;"></i></div>
+          <div>Sorry, an error occurred while trying to inflect this word. Hopefully the exact match is enough for now.</div>
         </div>
     </div>
 </template>
@@ -68,6 +76,14 @@ export default class Conjugations extends Vue {
 
     get userSearchForm() {
         return this.response.forms.find(f => f.word === this.response.search_term);
+    }
+
+    get groupId(): string {
+        return Object.keys(this.groups)[0];
+    }
+
+    get inflectionError(): boolean {
+        return this.response.forms.length === 1 && this.groupId === "unk";
     }
 
     get groups() {

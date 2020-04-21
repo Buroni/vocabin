@@ -43,7 +43,10 @@ class SentenceFormsView(SentenceListMixin, APIView):
             if w == word:
                 search_form_group = group
         response["search_term"] = word
-        response["forms"] = [f for f in form_objs if f["group"] == search_form_group]
+        try:
+            response["forms"] = [f for f in form_objs if f["group"] == search_form_group]
+        except NameError:
+            response["forms"] = [{"word": word, "pos": "", "word_type": "Unknown Type", "group": "unk"}]
         return Response(response)
 
 
