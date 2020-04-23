@@ -1,14 +1,18 @@
 .ButtonTray {
-    // Vars
-
-    // Support
-
-    // Module
-    & {
-        //
+    .buttons-container {
+        display: flex;
+        align-items: center;
     }
 
-    // Facets
+    @media (max-width: 425px) {
+        .buttons-container:not(.is-small) {
+            flex-wrap: wrap !important;
+            justify-content: space-between;
 
-    // States
+            .select, select {
+                width: 100%;
+                margin-bottom: 0.5em;
+            }
+        }
+    }
 }

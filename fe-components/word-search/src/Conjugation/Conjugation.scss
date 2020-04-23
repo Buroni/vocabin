@@ -40,9 +40,38 @@
     }
     .tag-columns {
         margin-bottom: 0 !important;
+        display: flex;
+        align-items: center;
 
         .column {
             padding-bottom: 0 !important;
+        }
+
+        .report-col {
+            margin-left: auto;
+        }
+    }
+
+    .word-info {
+        display: flex;
+        align-items: center;
+    }
+
+    .word-type {
+        margin-left: auto;
+
+        .subtitle {
+            font-size: 1rem !important;
+        }
+    }
+
+    @media (max-width: 425px) {
+        .word-type {
+            font-size: 0.7rem !important;
+
+            .subtitle {
+                font-size: 0.8rem !important;
+            }
         }
     }
 }

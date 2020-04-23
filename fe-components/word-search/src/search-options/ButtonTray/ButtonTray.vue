@@ -4,7 +4,7 @@
 
 <template>
     <div class="ButtonTray">
-        <div style="display: flex; align-items: center;">
+        <div class="buttons-container" :class="sizeClass">
             <div class="select" :class="sizeClass">
                 <select v-model="reactiveLang">
                     <option value="nl">Dutch</option>
@@ -18,7 +18,7 @@
             <div class="select" :class="sizeClass">
                 <select v-model="reactiveDifficulty">
                     <option value="">Any difficulty</option>
-                    <option value="0">Only simple results</option>
+                    <option value="0">Simple results</option>
                 </select>
             </div>
             <div class="select" :class="sizeClass">
@@ -26,7 +26,6 @@
                     <option value="">Any category</option>
                     <option value="news">News</option>
                     <option value="web">Web</option>
-                    <option value="kids" disabled>Kids (coming soon)</option>
                 </select>
             </div>
         </div>

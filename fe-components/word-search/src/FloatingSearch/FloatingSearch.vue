@@ -1,10 +1,16 @@
+<style>
+  @import './FloatingSearch.scss';
+</style>
+
 <template>
-    <div class="box">
-        <SearchBox @search="onSearch"></SearchBox>
-        <ButtonTray
-            @optionsChange="onOptionsChange"
-        >
-        </ButtonTray>
+    <div class="FloatingSearch">
+        <div class="box search-box">
+            <SearchBox @search="onSearch"></SearchBox>
+            <ButtonTray
+                @optionsChange="onOptionsChange"
+            >
+            </ButtonTray>
+        </div>
     </div>
 </template>
 <script>

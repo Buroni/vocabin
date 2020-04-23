@@ -10,7 +10,7 @@
             @optionsChange="onOptionsChange"
         >
         </TopSearch>
-        <section class="section" v-if="!response && !loading">
+        <section class="section float-section" v-if="!response && !loading">
             <FloatingSearch
                 @search="search"
                 @optionsChange="onOptionsChange"

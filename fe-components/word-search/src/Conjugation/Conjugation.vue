@@ -6,15 +6,15 @@
     <div class="Conjugation" :class="borderClass">
         <div>
             <div class="fake-link" @click="toggle">
-                <div class="columns">
-                    <div class="column is-7">
+                <div class="word-info">
+                    <div>
                         <h1 class="word-caret subtitle is-size-6">
                             <div style="margin-left: 1em;">{{ word }}</div>
                             <Caret class="caret" :key="expanded" :expanded="expanded"></Caret>
                         </h1>
                     </div>
-                    <div class="column is-5">
-                        <span class="subtitle is-size-6">{{ wordType }}</span>
+                    <div class="word-type">
+                        <span class="subtitle">{{ wordType }}</span>
                     </div>
                 </div>
             </div>
@@ -32,8 +32,8 @@
                     No results found for "{{ word }}"!
                 </div>
                 <div v-else v-for="item in sentences" class="sentence-item">
-                    <div class="columns tag-columns">
-                        <div class="column">
+                    <div class="tag-columns">
+                        <div>
                             <div class="tags are-small">
                                 <span class="tag">
                                     <span class="icon"><i :class="categoryIconClass(item.category)"></i></span>
@@ -41,7 +41,7 @@
                                 </span>
                             </div>
                         </div>
-                        <div class="column">
+                        <div class="report-col">
                             <span class="tag is-pulled-right report-button" @click="onReportClick(item)">
                                 <span class="icon"><i class="fas fa-flag"></i></span>
                             </span>

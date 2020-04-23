@@ -1,3 +1,7 @@
 .App {
-
+    @media (max-width: 425px) {
+        .float-section {
+            padding-bottom: 0 !important;
+        }
+    }
 }

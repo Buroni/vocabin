@@ -5,8 +5,8 @@
 
 <template>
     <div class="TopSearch">
-        <div style="display: flex; align-items: center; justify-content: flex-start;">
-            <div style="flex: 0 0 40%;">
+        <div class="search-container">
+            <div class="search-box">
                 <input
                     class="input is-small search-box"
                     type="text"
@@ -15,10 +15,10 @@
                     @keydown.enter="onSearch"
                 />
             </div>
-            <div style="padding-left: 0.5em;">
+            <div class="tray-container">
                 <ButtonTray @optionsChange="onOptionsChange" :small="true"></ButtonTray>
             </div>
-            <div style="padding-left: 0.5em;">
+            <div class="button-container">
                 <button
                     class="button is-small"
                     @click="onSearch">
