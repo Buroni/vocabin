@@ -100,6 +100,9 @@ export default class App extends Vue {
         this.loading = true;
         this.resetParams();
         try {
+            if (this.lang !== "de") {
+                this.searchTerm = this.searchTerm.toLowerCase();
+            }
             const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`);
             if (res.data["forms"].length === 0) {
                 this.noResults = true;
