@@ -5,7 +5,7 @@
 <template>
     <div class="Conjugations">
         <ReportModal :item="reportItem" @closeModal="setReportItem(null)"></ReportModal>
-        <div class="box is-shadowless less-padding group" style="border: 0;">
+        <div class="box less-padding group" style="border: 0;">
         <div class="group-head">
             <i class="fas fa-equals" style="color: #3273dc;"></i>
             <div style="padding-left: 0.5em;">Exact Match</div>
@@ -13,13 +13,14 @@
         <Conjugation
             @reportClicked="setReportItem"
             :form="userSearchForm"
+            :noBorder="true"
         >
         </Conjugation>
         </div>
         <div
             v-if="!inflectionError"
-            class="box is-shadowless group"
-            style="margin-top: 2em; border: 0; padding-left: 0;"
+            class="box group"
+            style="margin-top: 2em; border: 0; padding-left: 0; padding-right: 0;"
             >
             <div class="group-head">
                 <i class="fas fa-language" style="color: #3273dc;"></i>
@@ -29,9 +30,11 @@
                 </div>
             </div>
             <Conjugation
-                v-for="form in groups[groupId]"
+                v-for="(form, idx) in groups[groupId]"
                 @reportClicked="setReportItem"
-                :form="form">
+                :form="form"
+                :noBorder="idx === groups[groupId].length - 1"
+                >
             </Conjugation>
         </div>
         <div v-else class="notification is-light" style="display: flex; align-items: center; border: 1px solid rgba(255, 0, 0, 0.7);">

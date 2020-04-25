@@ -11,6 +11,7 @@ class VocaTagger:
 
     def tag_word(self, word):
         tag = self.tagger.tag_text(word)[0]
+        print(tag)
         return tag.split("\t")[1]
 
     def word_tag_info(self, word):

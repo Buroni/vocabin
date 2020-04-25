@@ -44,7 +44,8 @@ class SentenceFormsView(SentenceListMixin, APIView):
                 search_form_group = group
         response["search_term"] = word
         try:
-            response["forms"] = [f for f in form_objs if f["group"] == search_form_group]
+            forms = [f for f in form_objs if f["group"] == search_form_group]
+            response["forms"] = sorted(forms, key=lambda k: k["word_type"])
         except NameError:
             response["forms"] = [{"word": word, "pos": "", "word_type": "Unknown Type", "group": "unk"}]
         return Response(response)

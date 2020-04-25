@@ -1,6 +1,6 @@
 .Conjugation {
 
-    padding: 1em 0;
+    padding: 0;
 
     .easy {
         background-color: rgb(230, 255, 230);
@@ -12,8 +12,8 @@
         background-color: rgb(255, 230, 230);
     }
     .sentence-item {
-        padding: 1em 0.5em;
-        border-top: 1px solid rgba(0, 0, 0, 0.1);
+        padding: 1em;
+        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
         margin-top: 0.4em;
     }
     .tags {
@@ -55,6 +55,7 @@
     .word-info {
         display: flex;
         align-items: center;
+        padding: 1em;
     }
 
     .word-type {
