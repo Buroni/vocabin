@@ -1,0 +1,47 @@
+.WordTypeGroup {
+    .specific-word-type {
+        padding: 1em 1em 1em 2em;
+        text-transform: capitalize;
+        border-top: 1px solid rgba(0, 0, 0, 0.2);
+        cursor: pointer;
+        width: 100%;
+    }
+
+    .word-type-wrapper {
+        display: flex;
+        align-items: center;
+        width: 100%;
+    }
+
+    .type-text {
+        font-weight: bold;
+    }
+
+    .num-results {
+        font-size: 1em;
+    }
+
+    .cat-icon {
+        color: #3273dc;
+        padding-right: 0.5em;
+        width: 1.3em;
+        height: 1.3em;
+    }
+
+    .cat-icon-wrapper {
+        display: flex;
+        align-items: center;
+    }
+
+    .num-results-wrapper {
+        margin-left: auto;
+        display: flex;
+        align-items: center;
+        color: #3273dc;
+    }
+
+    .word-text-wrapper {
+        display: flex;
+        align-items: baseline;
+    }
+}

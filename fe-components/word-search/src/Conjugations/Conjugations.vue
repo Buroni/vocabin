@@ -12,7 +12,7 @@
         </div>
         <Conjugation
             @reportClicked="setReportItem"
-            :form="userSearchForm"
+            :result="userSearchForm"
             :noBorder="true"
         >
         </Conjugation>
@@ -25,33 +25,18 @@
             <div class="group-head">
                 <i class="fas fa-language" style="color: #3273dc;"></i>
                 <div v-html="groupName(userSearchForm.group)" style="padding-left: 0.5em;"></div>
-                <div class="group-head-meta">
-                    <div><span v-html="relevantForms.length"></span> results</div>
-                </div>
             </div>
-            <div v-for="form in relevantForms">
-                <div v-if="form.results.length === 1">
-                    <Conjugation
-                        v-for="(result, idx) in form.results"
-                        @reportClicked="setReportItem"
-                        :form="result"
-                        :noBorder="idx === relevantForms.length - 1"
-                        >
-                    </Conjugation>
-                </div>
-                <div v-else>
-                    <div>
-                        <div v-html="specificWordType(form.word_type)" class="specific-word-type"></div>
-                        <Conjugation
-                            v-for="(result, idx) in form.results"
-                            @reportClicked="setReportItem"
-                            :form="result"
-                            :noBorder="idx === relevantForms.length - 1"
-                            >
-                        </Conjugation>
-                    </div>
-                </div>
-            </div>
+            <Conjugation
+                v-for="(form, idx) in singleResultForms"
+                @reportClicked="setReportItem"
+                :result="form.results[0]"
+                :noBorder="idx === singleResultForms.length - 1"
+                >
+            </Conjugation>
+            <WordTypeGroup
+                v-for="form in multiResultForms"
+                :form="form">
+            </WordTypeGroup>
         </div>
         <div v-else class="notification is-light" style="display: flex; align-items: center; border: 1px solid rgba(255, 0, 0, 0.7);">
           <div style="padding-right: 0.5em;"><i class="fas fa-bug" style="width: 1.4em; height: 1.4em; color: red; opacity: 0.7;"></i></div>
@@ -67,12 +52,13 @@ import Caret from "../Caret/Caret";
 import { Component, Prop } from "vue-property-decorator";
 import Conjugation from "../Conjugation/Conjugation";
 import ReportModal from "../ReportModal/ReportModal";
-import { specificWordType } from "./utils";
+import WordTypeGroup from "../WordTypeGroup/WordTypeGroup";
 
 const components = {
     Caret,
     Conjugation,
     ReportModal,
+    WordTypeGroup,
 };
 
 @Component({ components })
@@ -94,12 +80,16 @@ export default class Conjugations extends Vue {
         }
     }
 
-    specificWordType(wordType: string): string {
-        return specificWordType(wordType);
-    }
-
     get userSearchForm() {
         return this.response.search_term;
+    }
+
+    get singleResultForms() {
+        return this.relevantForms.filter(f => f.results.length === 1);
+    }
+
+    get multiResultForms() {
+        return this.relevantForms.filter(f => f.results.length > 1);
     }
 
     get inflectionError(): boolean {

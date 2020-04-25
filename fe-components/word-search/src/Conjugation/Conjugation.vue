@@ -19,37 +19,41 @@
                 </div>
             </div>
             <div v-if="expanded">
-                <div v-if="errorMessage" style="padding-top: 0.5em;">
-                    <ErrorCard :message="errorMessage"></ErrorCard>
+                <div class="padding-wrapper">
+                    <div v-if="errorMessage" style="padding-top: 0.5em;">
+                        <ErrorCard :message="errorMessage"></ErrorCard>
+                    </div>
+                    <div v-else-if="loading" style="padding-top: 0.5em; padding-bottom: 0.5em;">
+                        <p>
+                            <i class="fas fa-list head-icon"></i>
+                            Fetching results...
+                        </p>
+                    </div>
+                    <div v-else-if="noResults">
+                        No results found for "{{ word }}"!
+                    </div>
                 </div>
-                <div v-else-if="loading" style="padding-top: 0.5em;">
-                    <p>
-                        <i class="fas fa-list head-icon"></i>
-                        Fetching results...
-                    </p>
-                </div>
-                <div v-else-if="noResults">
-                    No results found for "{{ word }}"!
-                </div>
-                <div v-else v-for="item in sentences" class="sentence-item">
-                    <div class="tag-columns">
-                        <div>
-                            <div class="tags are-small">
-                                <span class="tag">
-                                    <span class="icon"><i :class="categoryIconClass(item.category)"></i></span>
-                                    <span class="tag-text">{{ item.category }}</span>
+                <div class="sentence-items">
+                    <div v-if="!loading && !noResults" v-for="item in sentences" class="sentence-item">
+                        <div class="tag-columns">
+                            <div>
+                                <div class="tags are-small">
+                                    <span class="tag">
+                                        <span class="icon"><i :class="categoryIconClass(item.category)"></i></span>
+                                        <span class="tag-text">{{ item.category }}</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="report-col">
+                                <span class="tag is-pulled-right report-button" @click="onReportClick(item)">
+                                    <span class="icon"><i class="fas fa-flag"></i></span>
                                 </span>
                             </div>
                         </div>
-                        <div class="report-col">
-                            <span class="tag is-pulled-right report-button" @click="onReportClick(item)">
-                                <span class="icon"><i class="fas fa-flag"></i></span>
-                            </span>
+                        <div v-html="highlightSentence(item.sentence)"></div>
+                        <div style="padding-top: 1.5em">
+                            <Translate :sentence="item.sentence"></Translate>
                         </div>
-                    </div>
-                    <div v-html="highlightSentence(item.sentence)"></div>
-                    <div style="padding-top: 1.5em">
-                        <Translate :sentence="item.sentence"></Translate>
                     </div>
                 </div>
             </div>
@@ -77,7 +81,7 @@ export default class Conjugation extends Vue {
     noResults = false;
     errorMessage: string | null = null;
 
-    @Prop() form: any;
+    @Prop() result: any;
     @Prop() noBorder: boolean;
 
     @InjectReactive() searchTerm: string;
@@ -122,15 +126,15 @@ export default class Conjugation extends Vue {
     }
 
     get word(): string {
-        return this.form.word;
+        return this.result.word;
     }
 
     get group(): string {
-        return this.form.group;
+        return this.result.group;
     }
 
     get wordType(): string {
-        return this.form.word_type;
+        return this.result.word_type;
     }
 
     async get() {
