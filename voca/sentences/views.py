@@ -1,3 +1,4 @@
+import itertools
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from google.cloud import translate_v2 as translate
@@ -8,8 +9,9 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .fields import Category
 from .models import Sentence
-from .serializers import UserSerializer, SentenceSerializer
 from .nlp import NLP
+from .serializers import UserSerializer, SentenceSerializer
+from .utils import wordtype2group
 from .throttles import BurstRateThrottle, GCloudThrottle
 
 
@@ -42,12 +44,20 @@ class SentenceFormsView(SentenceListMixin, APIView):
             form_objs.append({"word": w, "pos": pos, "word_type": typ, "group": group})
             if w == word:
                 search_form_group = group
-        response["search_term"] = word
+        response["search_term"] = next((x for x in form_objs if x["word"] == word), None)
         try:
-            forms = [f for f in form_objs if f["group"] == search_form_group]
-            response["forms"] = sorted(forms, key=lambda k: k["word_type"])
+            forms = sorted([f for f in form_objs if f["group"] == search_form_group], key=lambda k: k["word_type"])
+            response["forms"] = [{
+                "word_type": key,
+                "group": wordtype2group(key),
+                "results": list(group)} for (key, group) in itertools.groupby(forms, key=lambda k: k["word_type"])
+            ]
         except NameError:
-            response["forms"] = [{"word": word, "pos": "", "word_type": "Unknown Type", "group": "unk"}]
+            response["forms"] = [{
+                "word_type": "Unknown Type",
+                "group": "unk",
+                "results": {"word": word, "pos": "", "word_type": "Unknown Type", "group": "unk"}
+            }]
         return Response(response)
 
 

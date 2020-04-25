@@ -24,18 +24,34 @@
             >
             <div class="group-head">
                 <i class="fas fa-language" style="color: #3273dc;"></i>
-                <div v-html="groupName(groupId)" style="padding-left: 0.5em;"></div>
+                <div v-html="groupName(userSearchForm.group)" style="padding-left: 0.5em;"></div>
                 <div class="group-head-meta">
-                    <div><span v-html="groups[groupId].length"></span> results</div>
+                    <div><span v-html="relevantForms.length"></span> results</div>
                 </div>
             </div>
-            <Conjugation
-                v-for="(form, idx) in groups[groupId]"
-                @reportClicked="setReportItem"
-                :form="form"
-                :noBorder="idx === groups[groupId].length - 1"
-                >
-            </Conjugation>
+            <div v-for="form in relevantForms">
+                <div v-if="form.results.length === 1">
+                    <Conjugation
+                        v-for="(result, idx) in form.results"
+                        @reportClicked="setReportItem"
+                        :form="result"
+                        :noBorder="idx === relevantForms.length - 1"
+                        >
+                    </Conjugation>
+                </div>
+                <div v-else>
+                    <div>
+                        <div v-html="specificWordType(form.word_type)" class="specific-word-type"></div>
+                        <Conjugation
+                            v-for="(result, idx) in form.results"
+                            @reportClicked="setReportItem"
+                            :form="result"
+                            :noBorder="idx === relevantForms.length - 1"
+                            >
+                        </Conjugation>
+                    </div>
+                </div>
+            </div>
         </div>
         <div v-else class="notification is-light" style="display: flex; align-items: center; border: 1px solid rgba(255, 0, 0, 0.7);">
           <div style="padding-right: 0.5em;"><i class="fas fa-bug" style="width: 1.4em; height: 1.4em; color: red; opacity: 0.7;"></i></div>
@@ -51,6 +67,7 @@ import Caret from "../Caret/Caret";
 import { Component, Prop } from "vue-property-decorator";
 import Conjugation from "../Conjugation/Conjugation";
 import ReportModal from "../ReportModal/ReportModal";
+import { specificWordType } from "./utils";
 
 const components = {
     Caret,
@@ -77,29 +94,22 @@ export default class Conjugations extends Vue {
         }
     }
 
-    get userSearchForm() {
-        return this.response.forms.find(f => f.word === this.response.search_term);
+    specificWordType(wordType: string): string {
+        return specificWordType(wordType);
     }
 
-    get groupId(): string {
-        return Object.keys(this.groups)[0];
+    get userSearchForm() {
+        return this.response.search_term;
     }
 
     get inflectionError(): boolean {
         return this.response.forms.length === 1 && this.groupId === "unk";
     }
 
-    get groups() {
-        const groups = {};
-        this.response.forms.forEach(form => {
-            const groupIds = Object.keys(groups);
-            if (!groupIds.includes(form.group)) {
-                groups[form.group] = [form];
-            } else {
-                groups[form.group].push(form);
-            }
+    get relevantForms() {
+        return this.response.forms.filter(form => {
+            return form.group === this.userSearchForm.group;
         });
-        return groups;
     }
 
     setReportItem(item) {
