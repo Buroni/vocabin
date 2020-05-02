@@ -1,6 +1,6 @@
 import operator
 import re
-from treetaggerwrapper import TreeTagger, make_tags
+from .treetaggerwrapper import TreeTagger, make_tags
 from .pos_patterns import pos_patterns
 
 
