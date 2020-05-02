@@ -86,6 +86,7 @@ pos_patterns = {
         ("Verb (imperfect)", "verb",  r"VER:impf"),
         ("Verb (subjunctive imperfect)", "verb",  r"VER:subi"),
         ("Verb (subjunctive perfect)", "verb",  r"VER:subp"),
+        ("Verb (present)", "verb",  r"VER:pres"),
     ],
     "it": [
         ("Adverb", "misc",  r"ADV"),

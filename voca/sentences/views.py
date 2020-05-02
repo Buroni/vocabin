@@ -41,28 +41,21 @@ class SentenceFormsView(SentenceListMixin, APIView):
         form_objs = []
         if not nlp.is_noun(word):
             word = word.lower()
-        for w in word_forms:
-            form_objs.append(self.make_form_obj(w, nlp))
         response["search_term"] = self.make_form_obj(word, nlp)
         search_form_group = response["search_term"]["group"]
-        try:
-            forms = sorted([f for f in form_objs if f["group"] == search_form_group], key=lambda k: k["word_type"])
-            response["forms"] = [{
-                "word_type": key,
-                "group": wordtype2group(key),
-                "results": list(group)} for (key, group) in itertools.groupby(forms, key=lambda k: k["word_type"])
-            ]
-        except NameError:
-            response["forms"] = [{
-                "word_type": "Unknown Type",
-                "group": "unk",
-                "results": [{"word": word, "pos": "", "word_type": "Unknown Type", "group": "unk"}]
-            }]
+        for w in word_forms:
+            form_objs.append(self.make_form_obj(w, nlp, search_form_group))
+        forms = sorted([f for f in form_objs if f["group"] == search_form_group], key=lambda k: k["word_type"])
+        response["forms"] = [{
+            "word_type": key,
+            "group": wordtype2group(key),
+            "results": list(group)} for (key, group) in itertools.groupby(forms, key=lambda k: k["word_type"])
+        ]
         return Response(response)
 
     @staticmethod
-    def make_form_obj(word, nlp):
-        typ, group, pos = nlp.get_pos_tag(word)
+    def make_form_obj(word, nlp, search_group=None):
+        typ, group, pos = nlp.get_pos_tag(word, search_group)
         return {"word": word, "pos": pos, "word_type": typ, "group": group}
 
 

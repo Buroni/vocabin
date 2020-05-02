@@ -51,8 +51,8 @@ class NLP:
         self.lang = lang
         self.voca_tagger = VocaTagger(lang=lang)
 
-    def get_pos_tag(self, word):
-        typ, group, pos = self.voca_tagger.word_tag_info(word)
+    def get_pos_tag(self, word, search_group):
+        typ, group, pos = self.voca_tagger.word_tag_info(word, search_group)
         return typ, group, pos
 
     def is_verb(self, word):
