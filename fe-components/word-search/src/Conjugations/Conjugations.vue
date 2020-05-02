@@ -4,6 +4,15 @@
 
 <template>
     <div class="Conjugations">
+        <div v-if="isAmbiguous" class="ambiguous-message">
+            <div class="icon">
+                <i class="fas fa-info-circle"></i>
+            </div>
+            <div>
+                <b><span v-html="userSearchForm.word"></span></b> can also be <span v-html="alternativeGroupName"></span>:
+                <span class="fake-link" @click="onSearch">search as <span v-html="alternativeGroupName"></span></span>
+            </div>
+        </div>
         <ReportModal :item="reportItem" @closeModal="setReportItem(null)"></ReportModal>
         <div class="box less-padding group" style="border: 0;">
         <div class="group-head">
@@ -73,6 +82,8 @@ export default class Conjugations extends Vue {
                 return "Verb Forms";
             case "noun":
                 return "Noun Forms";
+            case "adj":
+                return "Adjective";
             case "misc":
                 return "Miscellaneous";
             default:
@@ -82,6 +93,28 @@ export default class Conjugations extends Vue {
 
     get userSearchForm() {
         return this.response.search_term;
+    }
+
+    get isAmbiguous() {
+        return this.response.possible_groups.length > 1;
+    }
+
+    onSearch() {
+        this.$emit("search", this.alternativeGroup);
+    }
+
+    get alternativeGroup() {
+        const searchGroup = this.userSearchForm.group;
+        return this.response.possible_groups.filter(g => ![searchGroup, "unk", "misc"].includes(g))[0];
+    }
+
+    get alternativeGroupName() {
+        const searchGroup = this.userSearchForm.group;
+        const altGroup = this.alternativeGroup;
+        if (altGroup === "adj") {
+            return "an adjective";
+        }
+        return `a ${altGroup}`;
     }
 
     get singleResultForms() {

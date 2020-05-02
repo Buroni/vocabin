@@ -51,8 +51,20 @@ class NLP:
         self.lang = lang
         self.voca_tagger = VocaTagger(lang=lang)
 
-    def get_pos_tag(self, word, search_group):
-        typ, group, pos = self.voca_tagger.word_tag_info(word, search_group)
+    def possible_groups(self):
+        probas = self.voca_tagger.probabilities
+        groups = []
+        for pos, _ in probas.items():
+            if self.voca_tagger.pos_is_verb(pos) and "verb" not in groups:
+                groups.append("verb")
+            elif self.voca_tagger.pos_is_noun(pos) and "noun" not in groups:
+                groups.append("noun")
+            elif self.voca_tagger.pos_is_adj(pos) and "adj" not in groups:
+                groups.append("adj")
+        return groups
+
+    def get_pos_tag(self, word, search_group, initial):
+        typ, group, pos = self.voca_tagger.word_tag_info(word, search_group, initial)
         return typ, group, pos
 
     def is_verb(self, word):
@@ -67,10 +79,10 @@ class NLP:
     def get_noun_forms(self, noun):
         return list({self.singularize(noun), self.pluralize(noun)})
 
-    def get_word_forms(self, word):
-        if self.is_verb(word):
+    def get_word_forms(self, word, search_group=None):
+        if (self.is_verb(word) and search_group != "noun") or search_group == "verb":
             return self.get_verb_lexeme(word)
-        elif self.is_noun(word):
+        elif (self.is_noun(word) and search_group != "verb") or search_group == "noun":
             return self.get_noun_forms(word)
         else:
             return [word]

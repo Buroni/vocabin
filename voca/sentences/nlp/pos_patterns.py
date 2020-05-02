@@ -3,7 +3,7 @@ pos_patterns = {
     "en": [
         ("Adverb", "misc",  r"RB.*"),
         ("Article", "misc",  r"DT"),
-        ("Adjective", "misc",  r"JJ.*"),
+        ("Adjective", "adj",  r"JJ.*"),
         ("Conjunction", "misc",  r"CC"),
         ("Preposition", "misc",  r"IN"),
         ("Interjection", "misc",  r"UH"),
@@ -20,7 +20,7 @@ pos_patterns = {
     "de": [
         ("Adverb", "misc",  r"ADV"),
         ("Article", "misc",  r"ART"),
-        ("Adjective", "misc",  r"ADJ.*"),
+        ("Adjective", "adj",  r"ADJ.*"),
         ("Conjunction", "misc",  r"KO.*"),
         ("Preposition", "misc",  r"APPR.*"),
         ("Interjection", "misc",  r"ITJ"),
@@ -37,7 +37,7 @@ pos_patterns = {
     "es": [
         ("Adverb", "misc",  r"ADV"),
         ("Article", "misc",  r"ART"),
-        ("Adjective", "misc",  r"ADJ"),
+        ("Adjective", "adj",  r"ADJ"),
         ("Conjunction", "misc",  r"(CC.*|CQUE|CS.*)"),
         ("Preposition", "misc",  r"PREP"),
         ("Interjection", "misc",  r"ITJN"),
@@ -51,7 +51,7 @@ pos_patterns = {
     "nl": [
         ("Adverb", "misc",  r"adv.*"),
         ("Article", "misc",  r"det__art"),
-        ("Adjective", "misc",  r"adj.*"),
+        ("Adjective", "adj",  r"adj.*"),
         ("Conjunction", "misc",  r"conj.*"),
         ("Preposition", "misc",  r"prep.*"),
         ("Interjection", "misc",  r"int"),
@@ -70,7 +70,7 @@ pos_patterns = {
     "fr": [
         ("Adverb", "misc",  r"ADV"),
         ("Article", "misc",  r"DET:ART"),
-        ("Adjective", "misc",  r"ADJ"),
+        ("Adjective", "adj",  r"ADJ"),
         ("Conjunction", "misc",  r"KON"),
         ("Preposition", "misc",  r"PRP"),
         ("Interjection", "misc",  r"INT"),
@@ -91,7 +91,7 @@ pos_patterns = {
     "it": [
         ("Adverb", "misc",  r"ADV"),
         ("Article", "misc",  r"DET.*"),
-        ("Adjective", "misc",  r"ADJ"),
+        ("Adjective", "adj",  r"ADJ"),
         ("Conjunction", "misc",  r"CON"),
         ("Preposition", "misc",  r"PRE.*"),
         ("Interjection", "misc",  r"INT"),

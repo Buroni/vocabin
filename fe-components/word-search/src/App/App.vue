@@ -37,7 +37,7 @@
                     </div>
                 </div>
                 <div v-else-if="!loading && !noResults">
-                    <Conjugations :response="response">
+                    <Conjugations :response="response" @search="altSearch">
                 </div>
                 <div v-else-if="noResults" class="box">
                     No results found for "{{ response.forms[0] }}"!
@@ -89,6 +89,10 @@ export default class App extends Vue {
         this.get();
     }
 
+    altSearch(group) {
+        this.get(group);
+    }
+
     onOptionsChange(options) {
         this.lang = options.lang;
         this.difficulty = options.difficulty;
@@ -96,11 +100,12 @@ export default class App extends Vue {
     }
 
     /* Fetch sentences for a given search term (word) and store in this.response */
-    async get() {
+    async get(group?: string) {
         this.loading = true;
         this.resetParams();
+        const qParams = group ? { group } : {};
         try {
-            const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`);
+            const res = await vocaAPI.get(`forms/${this.lang}/${this.searchTerm}/`, qParams);
             if (res.data["forms"].length === 0) {
                 this.noResults = true;
             }
