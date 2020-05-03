@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>
+        Vocabin
+    </title>
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
+</head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<body>
+    <div class="maintenance">
+        <div class="box">
+            <div class="header">
+                <div><img src="{% static 'vocabin-1.svg' %%}" style="padding-right: 1em;"/></div>
+                <div><h2 class="subtitle is-size-4">Maintenance Mode</h2></div>
+            </div>
+            <p>
+                Vocabin is currently down for maintenance. Please check back soon!
+            </p>
+        </div>
+    </div>
+</body>
+</html>

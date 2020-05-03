@@ -61,6 +61,7 @@ class VocaTagger:
     def __most_likely_tag(self, tups, search_group, initial):
         all_probabilities = self.__build_proba_dict(tups)
         if initial:
+            print(all_probabilities)
             self.probabilities = all_probabilities
         # If the search group exists and is verb, limit tag possibilities
         if search_group == "verb":

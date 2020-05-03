@@ -9,6 +9,7 @@
     </title>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
     {% block seo_meta %}
     {% endblock seo_meta %}
     <!-- Google Analytics -->
@@ -98,7 +99,6 @@
 
     <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
     <script src="{% static 'base.js' %}"></script>
-    <link rel="stylesheet" type="text/css" href="{% static 'base.css' %}">
     {% block js %}
     {% endblock js %}
 </body>

@@ -15,7 +15,7 @@ pos_patterns = {
         ("Verb (past)", "verb",  r"(VVD|VBD)"),
         ("Verb (present participle / gerund)", "verb",  r"(VVG|VBG)"),
         ("Verb (past participle)", "verb",  r"(VVN|VBN)"),
-        ("Verb (singular present)", "verb",  r"(VVZ|VBP|VBZ)"),
+        ("Verb (singular present)", "verb",  r"(VVZ|VBP|VBZ|VVP)"),
     ],
     "de": [
         ("Adverb", "misc",  r"ADV"),

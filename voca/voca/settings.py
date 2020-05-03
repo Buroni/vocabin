@@ -35,6 +35,8 @@ os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = env("GOOGLE_APPLICATION_CREDENTIA
 # TreeTagger location
 os.environ["TAGDIR"] = env("TAGDIR")
 
+MAINTENANCE_MODE = None if env("MAINTENANCE_MODE") == "None" else True
+
 SECURE_REFERRER_POLICY = "same-origin"
 CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SECURE = not env("DEBUG")
@@ -62,6 +64,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'maintenance_mode',
     'rest_framework',
     'rest_framework.authtoken',
     'sentences',
@@ -76,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'maintenance_mode.middleware.MaintenanceModeMiddleware',
 ]
 
 ROOT_URLCONF = 'voca.urls'
@@ -91,6 +95,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'maintenance_mode.context_processors.maintenance_mode',
             ],
         },
     },

@@ -115,3 +115,23 @@ a:hover {
     align-items: center;
     color: black;
 }
+
+.maintenance {
+    position: relative;
+    height: 100vh;
+    .box {
+        width: 50%;
+        margin: 0;
+        position: absolute;
+        top: 30%;
+        left: 25%;
+        transform: translateY(-50%);
+    }
+    .header {
+        display: flex;
+        align-items: center;
+    }
+    p {
+        padding-top: 1em;
+    }
+}
