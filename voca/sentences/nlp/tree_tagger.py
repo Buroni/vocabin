@@ -3,7 +3,7 @@ import re
 from .treetaggerwrapper import TreeTagger, make_tags
 from .pos_patterns import pos_patterns
 
-PROBA_THRESHOLD = 0.2
+PROBA_THRESHOLD = 0.1
 
 
 class VocaTagger:
