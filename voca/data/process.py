@@ -6,6 +6,7 @@ import re
 
 lang = sys.argv[1]
 domain = sys.argv[2]
+garbled_chars = ["¿½", "Ã", "©", "§"]
 
 
 def build_base_url(language, domain):
@@ -15,8 +16,10 @@ def build_base_url(language, domain):
 class Sentences:
     def __init__(self, df_sentences):
         self.df_sentences = df_sentences
-        self.df_sentences = self.df_sentences.assign(sentence_length=0, avg_word_length=0)
+        self.df_sentences = self.df_sentences.assign(sentence_length=0, avg_word_length=0, flag=0)
         self.df_sentences = self.df_sentences[(self.df_sentences["sentence"].str.count(r"\.+") <= 1)]
+        self.df_sentences["flag"] = np.where(self.df_sentences["sentence"].str.contains("|".join(garbled_chars)), 1, 0)
+        self.df_sentences = self.df_sentences[(self.df_sentences["flag"] != 1)]
         self.sentences = self.df_sentences[self.df_sentences.columns[0]]
 
     def score_sentences(self):
